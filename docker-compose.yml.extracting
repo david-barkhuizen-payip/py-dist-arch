@@ -1,0 +1,44 @@
+  btc_price:
+    container_name: ${BTC_PRICE_HOST}
+    image: btc_price:latest
+    networks:
+      - internal
+    env_file:
+      - ./dev.env
+    expose:
+      - ${BTC_PRICE_PORT}
+    logging:
+      driver: "none"
+
+  create_buy_order:
+    container_name: ${CREATE_BUY_ORDER_HOST}
+    image: create_buy_order:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    ports:
+      - "${CREATE_BUY_ORDER_EXT_PORT}:${CREATE_BUY_ORDER_PORT}"
+    networks:
+      - internal
+    depends_on:
+      - log
+      - write_model     
+      - queue
+    # logging:
+    #   driver: "none"
+
+  fetch_buy_orders:
+    container_name: ${FETCH_BUY_ORDERS_HOST}
+    image: fetch_buy_orders:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    ports:
+      - "${FETCH_BUY_ORDERS_EXT_PORT}:${FETCH_BUY_ORDERS_PORT}"
+    networks:
+      - internal
+    depends_on:
+      - log
+      - read_model
+    logging:
+      driver: "none"

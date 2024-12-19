@@ -1,41 +1,5 @@
 # 12-factor Python Micro Service Architecture
 
-## Important Note on Authentication, Security & Data Persistence
-
-This demonstration system features no authentication, has not been secured, and is not intended for production use.  Furthermore, no guarantees are made as no data persistence.  While reasonable efforts have been mad eto source components from reputable sources, you use this system entirely at your own risk, and the author accepts no responsibility whatsoever for its use or misuse.
-
-## Functional Requirements
-
-API allows its clients to manage BTC buy orders. Clients place orders to purchase BTC for fiat at a market price. API does not create transactions on the Bitcoin blockchain, but simply stores the order information in its database for further processing.
-
-### Create Buy Order
-
-1. Creation of a Buy Order requires the following data at minimum:
-
-* currency - represents the currency (ISO3 code one of: EUR, GBP, USD)
-* amount - represents the amount of currency (0 < x < 1,000,000,000)
-
-2. Successful call should store the order in the database. The following info should be
-stored at a minimum:
-
-* id - order's unique identifier
-* amount - requested fiat amount
-* currency - requested fiat currency
-* exchange rate - value of BTC versus the requested fiat; BTC is the base currency and requested fiat is the quote currency; use the third-party API to source the exchange rates
-* bitcoin amount - amount of BTC which the requested amount of fiat buys at the exchange rate. Use a precision of 8 decimal digits, and always round up. Do not lose precision in calculations
-
-3. Buy Order creation must be idempotent.
-
-4. Sum of bitcoin amount of all orders stored in the system must not exceed 100BTC.
-
-System must not allow creation of new orders which would cause the constraint to be violated.
-
-### Fetch Buy Order Collection
-
-Returns Buy Orders stored in the database in reverse chronological order.
-
-Resources must have the following attributes at minimum: id, amount, currency, exchange rate, bitcoin amount. Responses must be paged. Response time should be the same regardless which page is requested.
-
 ## Architecture
 
 ### Component Technologies

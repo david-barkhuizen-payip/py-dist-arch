@@ -11,8 +11,9 @@ class Currency(Enum):
     USD = 'USD'
     EUR = 'EUR'
     GBP = 'GBP'
+    ZAR = 'ZAR'
 
-SUPPORTED_CURRENCIES = [Currency.USD.value, Currency.EUR.value, Currency.GBP.value]
+SUPPORTED_CURRENCIES = [x.value for x in [Currency.USD, Currency.EUR, Currency.GBP, Currency.ZAR]]
 
 class Queue(Enum):
     BuyOrder = 'buy_order'
