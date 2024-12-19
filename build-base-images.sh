@@ -3,17 +3,10 @@ BUILD_OPTIONS=""
 ROOT="docker/services"
 
 services=(\
-"common" \
 "database" \
 "log" \
 "queue" \
-"read_model_sync" \
-"migration" \
-"merchant_pos" \
-"platform_new_pmt" \
-"iss_bank_new_pmt" \
-"platform_new_receipt" \
-"pmt_proc_new_pmt" \
+"common" \
 )
 
 for service in "${services[@]}"; do

@@ -1,3 +1,3 @@
-FROM merchant_pos-base:latest
+FROM common-base:latest
 
 CMD ["python", "merchant_pos.py"]

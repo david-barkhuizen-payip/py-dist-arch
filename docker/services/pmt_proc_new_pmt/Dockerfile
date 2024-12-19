@@ -1,3 +1,3 @@
-FROM pmt_proc_new_pmt-base:latest
+FROM common-base:latest
 
 CMD ["python", "pmt_proc_new_pmt.py"]

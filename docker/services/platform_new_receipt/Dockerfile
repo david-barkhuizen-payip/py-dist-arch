@@ -1,3 +1,3 @@
-FROM platform_new_receipt-base:latest
+FROM common-base:latest
 
 CMD ["python", "platform_new_receipt.py"]

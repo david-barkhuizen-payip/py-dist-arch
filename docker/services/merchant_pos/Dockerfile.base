@@ -1,4 +1,0 @@
-FROM common-python-base:latest
-
-COPY codebase/services/merchant_pos/requirements.txt ./requirements.txt
-RUN pip install -r ./requirements.txt

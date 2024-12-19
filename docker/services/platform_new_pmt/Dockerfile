@@ -1,3 +1,3 @@
-FROM platform_new_pmt-base:latest
+FROM common-base:latest
 
 CMD ["python", "platform_new_pmt.py"]

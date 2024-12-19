@@ -6,12 +6,13 @@ services=(\
 "write_model" \
 "read_model" \
 "log" \
-"create_buy_order" \
-"fetch_buy_orders" \
 "queue" \
 "read_model_sync" \
 "migration" \
-"btc_price" \
+"merchant_pos" \
+"platform_new_pmt" \
+"platform_new_receipt" \
+"pmt_proc_new_pmt" \
 )
 
 for service in "${services[@]}"; do
