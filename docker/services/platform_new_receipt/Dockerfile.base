@@ -1,0 +1,4 @@
+FROM common-python-base:latest
+
+COPY codebase/services/platform_new_receipt/requirements.txt ./requirements.txt
+RUN pip install -r ./requirements.txt

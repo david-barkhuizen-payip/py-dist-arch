@@ -9,9 +9,11 @@ services=(\
 "queue" \
 "read_model_sync" \
 "migration" \
-"btc_price" \
-"create_buy_order" \
-"fetch_buy_orders" \
+"merchant_pos" \
+"platform_new_pmt" \
+"iss_bank_new_pmt" \
+"platform_new_receipt" \
+"pmt_proc_new_pmt" \
 )
 
 for service in "${services[@]}"; do
