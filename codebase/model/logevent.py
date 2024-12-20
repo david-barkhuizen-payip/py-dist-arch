@@ -5,6 +5,10 @@ from pydantic import BaseModel
 class LoggingTag(Enum):
     Root = 'pydist'
 
+
+class RequestReceivedLogEvent(BaseModel):
+    pass
+
 class CreateBuyOrderRequestReceived(BaseModel):
     currency: str
     amount: str

@@ -8,6 +8,7 @@ class MerchantNewCheckoutRequest(BaseModel):
 
 class MerchantCheckoutExport(BaseModel):
     id: uuid.UUID
+    client_id: int
     created_at: datetime.datetime
 
 class MerchantNewCheckoutResponse(BaseModel):
