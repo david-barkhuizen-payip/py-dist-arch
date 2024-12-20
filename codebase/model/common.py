@@ -29,6 +29,9 @@ class Service(Enum):
     MIGRATION = 'migration'
     READ_MODEL_SYNC = 'read_model_sync'
 
+    MERCHANT_POS = 'merchant_pos'
+    PMT_PROC_NEW_PMT = 'pmt_proc_new_pmt'
+
 from model.common import Queue
 from pydantic import BaseModel
 
