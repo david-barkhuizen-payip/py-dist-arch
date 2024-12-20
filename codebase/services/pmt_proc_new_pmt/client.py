@@ -4,7 +4,7 @@ from util.web import url_for_endpoint
 from model.common import Endpoint
 import requests
 
-class PaymentProcessorNewCustomerPaymentClient:
+class PaymentProcessorNewPaymentClient:
 
     def __init__(self, endpoint: Endpoint):
         self.endpoint = endpoint

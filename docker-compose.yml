@@ -145,7 +145,7 @@ services:
     env_file:
       - ./dev.env
     expose:
-      - "${PLATFORM_NEW_RECIPT_PORT}"
+      - "${PLATFORM_NEW_RECEIPT_PORT}"
     networks:
       - internal
     depends_on:

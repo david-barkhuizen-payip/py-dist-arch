@@ -13,10 +13,13 @@ services=(\
 "platform_new_pmt" \
 "platform_new_receipt" \
 "pmt_proc_new_pmt" \
+"iss_bank_new_pmt"
 )
 
 for service in "${services[@]}"; do
-  echo "building run image $service:latest ..."
-  docker build -t $service:latest -f $ROOT/$service/Dockerfile $BUILD_OPTIONS .
-  echo "... built run image $service"
+  tag="$service:latest"
+  dockerfile_path="$ROOT/$service/Dockerfile"
+  echo "building $tag from $dockerfile_path ..."
+  docker build -t $tag -f $dockerfile_path $BUILD_OPTIONS .
+  echo "... built $tag"
 done

@@ -3,10 +3,9 @@ from typing import Callable, List, Optional
 import uuid
 from model.logevent import RequestReceivedLogEvent
 from services.merchant_pos.rqrsp import MerchantCheckoutExport, MerchantNewCheckoutRequest, MerchantNewCheckoutResponse
+from services.platform_new_receipt.client import PlatformNewReceiptClient
+from services.pmt_proc_new_pmt.client import PaymentProcessorNewPaymentClient
 from sqlalchemy.sql.expression import select
-from services.btc_price.client import BtcPriceServiceClient
-from decimal import Decimal
-import traceback
 from sqlalchemy.engine.base import Engine
 
 from sqlalchemy.orm import Session
@@ -14,12 +13,16 @@ from sqlalchemy.orm import Session
 from model.orm.write_model import Currency
 
 write_engine: Optional[Engine] = None
-q_publisher: Optional[Callable] = None
-btc_price_service: Optional[BtcPriceServiceClient] = None
 currencies: List[Currency] = None
+pmt_proc_new_pmt_service: PaymentProcessorNewPaymentClient = None 
+platform_new_receipt_service: PlatformNewReceiptClient = None
 
-def configure_logic(write_engine_: Engine, q_publisher_, btc_price_service_: BtcPriceServiceClient):
-    global write_engine, q_publisher, btc_price_service, currencies
+def configure_logic(
+    write_engine_: Engine, 
+    pmt_proc_new_pmt_service_: PaymentProcessorNewPaymentClient, 
+    platform_new_receipt_service_: PlatformNewReceiptClient
+):
+    global write_engine, pmt_proc_new_pmt_service, platform_new_receipt_service, currencies
     
     write_engine = write_engine_
 
@@ -27,8 +30,8 @@ def configure_logic(write_engine_: Engine, q_publisher_, btc_price_service_: Btc
         stmt = select(Currency)
         currencies = db_session.execute(stmt).scalars().all()
 
-    q_publisher = q_publisher_
-    btc_price_service = btc_price_service_
+    pmt_proc_new_pmt_service = pmt_proc_new_pmt_service_
+    platform_new_receipt_service = platform_new_receipt_service_
 
 def handle_merchant_new_checkout_request(client_id: int, rq: MerchantNewCheckoutRequest):
 

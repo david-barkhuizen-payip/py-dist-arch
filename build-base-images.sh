@@ -10,7 +10,10 @@ services=(\
 )
 
 for service in "${services[@]}"; do
-  echo "building base image $service-base:latest ..."
-  docker build -t $service-base:latest -f $ROOT/$service/Dockerfile.base $BUILD_OPTIONS .
-  echo "... built base image for $service"
+  echo "-------------------------------------------------------------------------------------"
+  tag="$service-base:latest"
+  dockerfile_path="$ROOT/$service/Dockerfile.base"
+  echo "building $tag from $dockerfile_path ..."
+  docker build -t $tag -f $dockerfile_path $BUILD_OPTIONS .
+  echo "... built $tag"
 done

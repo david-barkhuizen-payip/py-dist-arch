@@ -3,7 +3,7 @@ import uuid
 from model.common import SUPPORTED_CURRENCIES
 from pydantic import BaseModel, validator
 
-class IssuingBankNewCustomerPaymentRequest(BaseModel):
+class IssuingBankNewPaymentRequest(BaseModel):
     currency: str
     amount: int
 
@@ -20,12 +20,12 @@ class IssuingBankNewCustomerPaymentRequest(BaseModel):
         return v
 
 
-class IssuingBankCustomerPaymentExport(BaseModel):
+class IssuingBankPaymentExport(BaseModel):
     id: uuid.UUID
     created_at: datetime.datetime
     currency: str
     currency_amount: int
     successful: bool
 
-class IssuingBankNewCustomerPaymentResponse(BaseModel):
-    payment: IssuingBankCustomerPaymentExport
+class IssuingBankNewPaymentResponse(BaseModel):
+    payment: IssuingBankPaymentExport

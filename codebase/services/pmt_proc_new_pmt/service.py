@@ -5,7 +5,7 @@ from util.events import log_event
 from fastapi import FastAPI
 
 from util.service import request_handler
-from services.merchant_pos.logic import configure_logic, handle_merchant_new_checkout_request, rq_received_logevent
+from services.pmt_proc_new_pmt.logic import configure_logic, handle_payment_processor_new_customer_payment_request, rq_received_logevent
 from model.logevent import HealthChecked
 
 def configure_api(
@@ -26,5 +26,5 @@ def checkout(rq: PaymentProcessorNewCustomerPaymentRequest):
     return request_handler(
         'PaymentProcessorNewCustomerPaymentRequestReceived', 
         rq_received_logevent, 
-        handle_merchant_new_checkout_request
+        handle_payment_processor_new_customer_payment_request
     )(rq)

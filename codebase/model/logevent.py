@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 class LoggingTag(Enum):
-    Root = 'pydist'
+    Root = 'receipts'
 
 
 class RequestReceivedLogEvent(BaseModel):
