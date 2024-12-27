@@ -190,6 +190,8 @@ services:
       - ./dev.env
     expose:
       - "${TEST_PORT}"
+    ports:
+      - "${TEST_EXT_PORT}:${TEST_PORT}"
     networks:
       - internal
     depends_on:

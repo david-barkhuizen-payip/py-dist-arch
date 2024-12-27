@@ -21,7 +21,7 @@ api = FastAPI()
 async def get_root():
     log_event(HealthChecked())
 
-@api.post("/test")
+@api.post("/checkout")
 def checkout(rq: TestRequest):
     return request_handler(
         'TestRequestReceived', 
