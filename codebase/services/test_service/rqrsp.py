@@ -1,9 +1,12 @@
 from pydantic import BaseModel, validator
 
+from services.merchant_pos_new_checkout.rqrsp import MerchantPosCheckoutExport
+
 class TestRequest(BaseModel):
-    pass
+    currency_amt: int
 
 class TestExport(BaseModel):
-    pass
+    merchant_pos_checkout: MerchantPosCheckoutExport    
+
 class TestResponse(BaseModel):
     test: TestExport

@@ -18,10 +18,12 @@ def request_handler(request_name: str, log_event_model: Callable, callback: Call
             return rsp
         except:
             error_reference = uuid.uuid4()
+            trace = traceback.format_exc()
+            print(trace)
             log_event( 
                 RequestFailed(
                     request=request_name,
-                    error=traceback.format_exc(),
+                    error=trace,
                     reference=str(error_reference)
                 )
             )

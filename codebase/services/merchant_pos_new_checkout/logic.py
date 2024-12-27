@@ -2,7 +2,7 @@ import datetime
 from typing import Callable, List, Optional
 import uuid
 from model.logevent import RequestReceivedLogEvent
-from services.merchant_pos_new_checkout.rqrsp import MerchantCheckoutExport, MerchantNewCheckoutRequest, MerchantNewCheckoutResponse
+from services.merchant_pos_new_checkout.rqrsp import MerchantPosCheckoutExport, MerchantNewCheckoutRequest, MerchantNewCheckoutResponse
 from services.platform_new_receipt.client import PlatformNewReceiptClient
 from services.pmt_proc_new_pmt.client import PaymentProcessorNewPaymentClient
 from sqlalchemy.sql.expression import select
@@ -36,12 +36,12 @@ def configure_logic(
 def handle_merchant_new_checkout_request(client_id: int, rq: MerchantNewCheckoutRequest):
 
     return MerchantNewCheckoutResponse(
-        checkout=MerchantCheckoutExport(
-            id = uuid.UUID4(),
+        checkout=MerchantPosCheckoutExport(
+            id = uuid.uuid4(),
             created_at=datetime.datetime.now(),
             client_id=client_id
         )
     )
 
 def rq_received_logevent(client_id, rq):
-    return RequestReceivedLogEvent()
+    return RequestReceivedLogEvent(text=str(rq))

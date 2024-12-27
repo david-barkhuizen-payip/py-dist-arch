@@ -28,4 +28,4 @@ def handle_platform_new_receipt_request(client_id: int, rq: PlatformNewReceiptRe
     return PlatformNewReceiptResponse()
 
 def rq_received_logevent(client_id, rq):
-    return RequestReceivedLogEvent()
+    return RequestReceivedLogEvent(text=str(rq))

@@ -23,7 +23,7 @@ api = FastAPI()
 async def get_root():
     log_event(HealthChecked())
 
-@api.post("/checkout")
+@api.post("/")
 def checkout(rq: MerchantNewCheckoutRequest):
     return request_handler(
         'MerchantNewCheckoutRequestReceived', 

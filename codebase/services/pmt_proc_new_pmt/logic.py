@@ -36,4 +36,4 @@ def handle_payment_processor_new_customer_payment_request(client_id: int, rq: Pa
     )
 
 def rq_received_logevent(client_id, rq):
-    return RequestReceivedLogEvent()
+    return RequestReceivedLogEvent(text=str(rq))

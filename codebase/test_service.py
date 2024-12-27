@@ -28,7 +28,7 @@ def service_definition():
         write_model_db_endpoint = database_endpoint_from_env('WRITE_MODEL_DB')        
         write_model_engine = get_tested_database_engine(write_model_db_endpoint)
 
-        merchant_pos_new_checkout_service = MerchantPosNewCheckoutClient(endpoint_from_env('MERCHANT_POS_NEW_CHECKOUT', no_path = True))
+        merchant_pos_new_checkout_service = MerchantPosNewCheckoutClient(endpoint_from_env('MERCHANT_POS_NEW_CHECKOUT'))
         
         configure_api(write_model_engine, merchant_pos_new_checkout_service)
 

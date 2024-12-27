@@ -7,7 +7,7 @@ class LoggingTag(Enum):
 
 
 class RequestReceivedLogEvent(BaseModel):
-    pass
+    text: str
 
 class CreateBuyOrderRequestReceived(BaseModel):
     currency: str

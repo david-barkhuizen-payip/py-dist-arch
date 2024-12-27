@@ -8,13 +8,18 @@ class MerchantPosNewCheckoutClient:
     def __init__(self, endpoint: Endpoint):
         self.endpoint = endpoint
 
-    def new_checkout(self):
+    def new_checkout(self, currency_amt: int) -> MerchantNewCheckoutResponse:
 
         url = f'{url_for_endpoint(self.endpoint)}'
-        http_rsp = requests.post(url, MerchantNewCheckoutRequest())
+
+        rq = MerchantNewCheckoutRequest(
+            currency_amt=currency_amt
+        )
+
+        http_rsp = requests.post(url, json=rq.dict())
 
         if http_rsp.status_code != 200:
-            raise f'platform new customer payment error: {http_rsp.text}'
+            raise Exception(f'platform new customer payment error: {http_rsp}')
 
-        return MerchantNewCheckoutResponse.parse_raw(http_rsp.text).payment
+        return MerchantNewCheckoutResponse.parse_raw(http_rsp.text)
     

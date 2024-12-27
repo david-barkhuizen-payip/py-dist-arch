@@ -1,3 +1,3 @@
 ./stop.sh
-./build_run_images.sh
+./prune.sh
 ./run.sh

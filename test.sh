@@ -4,7 +4,7 @@ echo
 
 curl \
     -H "Content-Type: application/json" \
-    -d '{}' \
+    -d '{"currency_amt":888}' \
     -X POST ${TEST_PROTOCOL}://localhost:${TEST_EXT_PORT}/checkout
 
 echo

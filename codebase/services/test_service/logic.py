@@ -29,10 +29,13 @@ def configure_logic(
 
 def handle_test_request(client_id: int, rq: TestRequest):
 
+    merchant_pos_new_checkout_rsp = merchant_pos_new_checkout_service.new_checkout(rq.currency_amt)
+
     return TestResponse(
-        test=TestExport(    
+            test=TestExport(
+                merchant_pos_checkout=merchant_pos_new_checkout_rsp.checkout
         )
     )
 
 def rq_received_logevent(client_id, rq):
-    return RequestReceivedLogEvent()
+    return RequestReceivedLogEvent(text=str(rq))

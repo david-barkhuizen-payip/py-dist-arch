@@ -53,7 +53,9 @@ def serve(service: ServiceDefinition):
                     service.web_api, 
                     host=host, 
                     port=port, 
-                    log_level="info"
+                    log_level="info",
+                    # reload=True,
+                    # reload_dirs=["/application"]
                 )
         except:
             log_event(ServiceWebServeExceptionOccurred(info=traceback.format_exc()))

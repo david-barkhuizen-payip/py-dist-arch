@@ -28,4 +28,4 @@ def handle_platform_new_payment_request(client_id: int, rq: PlatformNewPaymentRe
     return PlatformNewPaymentResponse()
 
 def rq_received_logevent(client_id, rq):
-    return RequestReceivedLogEvent()
+    return RequestReceivedLogEvent(text=str(rq))

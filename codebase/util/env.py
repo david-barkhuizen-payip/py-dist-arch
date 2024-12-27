@@ -22,7 +22,7 @@ def database_endpoint_from_env(prefix: str):
         retry_wait_s=env_int(f'{prefix}_RETRY_WAIT_S')
     )
 
-def endpoint_from_env(prefix: str, no_path: bool = False):
+def endpoint_from_env(prefix: str, no_path: bool = True):
     prefix = prefix.upper()
     return Endpoint(
         protocol=env_str(f'{prefix}_PROTOCOL'),
