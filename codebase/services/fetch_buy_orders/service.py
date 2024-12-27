@@ -10,7 +10,7 @@ def configure_api(read_model_engine):
     configure_get_buy_orders(read_model_engine)
 
 @api.get("/healthcheck")
-async def get_root():
+def get_root():
     log_event(HealthChecked())
 
 @api.get("/buy_orders")

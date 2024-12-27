@@ -1,4 +1,4 @@
-from util.service_base import ServiceDefinition, serve
+from util.service_base import ServiceDefinition, launch_uvicorn_server
 from util.env import endpoint_from_env
 from util.coinbase import CoinBaseClient
 from model.common import Service
@@ -13,4 +13,5 @@ def service_definition():
 
     return ServiceDefinition(Service.BTC_PRICE, configure_service, None, api)
 
-serve(service_definition())
+if __name__ == '__main__':
+    launch_uvicorn_server(service_definition())

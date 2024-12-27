@@ -1,12 +1,12 @@
 from services.merchant_pos_new_checkout.client import MerchantPosNewCheckoutClient
-from services.test_service.rqrsp import TestRequest
+from services.test.rqrsp import TestRequest
 from sqlalchemy.engine.base import Engine
 from util.events import log_event
 from fastapi import FastAPI
 
 from util.service import request_handler
 from model.logevent import HealthChecked
-from services.test_service.logic import configure_logic, handle_test_request, rq_received_logevent
+from services.test.logic import configure_logic, handle_test_request, rq_received_logevent
 
 def configure_api(
     write_engine: Engine, 

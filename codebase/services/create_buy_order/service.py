@@ -16,7 +16,7 @@ def configure_api(write_engine: Engine, q_publisher, btc_price_service: BtcPrice
 api = FastAPI()
 
 @api.get("/healthcheck")
-async def get_root():
+def get_root():
     log_event(HealthChecked())
 
 @api.put("/buy_order")

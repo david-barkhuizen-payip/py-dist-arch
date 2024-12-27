@@ -4,7 +4,7 @@ from util.db import get_tested_database_engine
 from services.migration.client import MigrationServiceClient
 from typing import Callable, Optional
 from model.common import DatabaseEndPoint, Endpoint, QueueEndpoint
-from util.service_base import ServiceDefinition, serve
+from util.service_base import ServiceDefinition, launch_uvicorn_server
 from util.queue import connect_blocking_q_listener
 from util.env import database_endpoint_from_env, endpoint_from_env, queue_endpoint_from_env
 from model.common import Queue, Service
@@ -75,4 +75,5 @@ def service_definition():
 
     return ServiceDefinition(Service.READ_MODEL_SYNC, configure_service, run_logic, None)
 
-serve(service_definition())
+if __name__ == '__main__':
+    launch_uvicorn_server(service_definition())

@@ -1,9 +1,9 @@
 from typing import Optional
-from services.test_service.service import configure_api, api
+from services.test.service import configure_api
 from services.merchant_pos_new_checkout.client import MerchantPosNewCheckoutClient
 from sqlalchemy.engine.base import Engine
 from model.common import DatabaseEndPoint, Endpoint, Service
-from util.service_base import ServiceDefinition, serve
+from util.service_base import ServiceDefinition, launch_uvicorn_server
 from services.migration.client import MigrationServiceClient
 from util.env import database_endpoint_from_env, endpoint_from_env
 from util.db import get_tested_database_engine
@@ -25,13 +25,11 @@ def service_definition():
         migration_client = MigrationServiceClient(migration_endpoint)
         migration_client.wait_for_migrations()
 
-        write_model_db_endpoint = database_endpoint_from_env('WRITE_MODEL_DB')        
-        write_model_engine = get_tested_database_engine(write_model_db_endpoint)
 
-        merchant_pos_new_checkout_service = MerchantPosNewCheckoutClient(endpoint_from_env('MERCHANT_POS_NEW_CHECKOUT'))
         
         configure_api(write_model_engine, merchant_pos_new_checkout_service)
 
-    return ServiceDefinition(Service.TEST, configure_service, None, api)
+    return ServiceDefinition(Service.TEST, configure_service, None)
 
-serve(service_definition())
+if __name__ == '__main__':
+    launch_uvicorn_server(service_definition())

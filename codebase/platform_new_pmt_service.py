@@ -1,12 +1,12 @@
 from typing import Optional
 from sqlalchemy.engine.base import Engine
 from model.common import DatabaseEndPoint, Endpoint, QueueEndpoint, Queue, Service
-from util.service_base import ServiceDefinition, serve
+from util.service_base import ServiceDefinition, launch_uvicorn_server
 from services.migration.client import MigrationServiceClient
 from util.env import database_endpoint_from_env, endpoint_from_env, queue_endpoint_from_env
 from util.db import get_tested_database_engine
 from util.queue import wait_for_configured_queue_publisher
-from services.platform_new_pmt.service import api, configure_api
+from services.platform_new_pmt.service import configure_api
 
 def service_definition():
 
@@ -32,6 +32,7 @@ def service_definition():
         
         configure_api(write_model_engine, q_publisher)
 
-    return ServiceDefinition(Service.PLATFORM_NEW_PMT, configure_service, None, api)
+    return ServiceDefinition(Service.PLATFORM_NEW_PMT, configure_service, None)
 
-serve(service_definition())
+if __name__ == '__main__':
+    launch_uvicorn_server(service_definition())

@@ -18,7 +18,7 @@ def configure_api(
 api = FastAPI()
 
 @api.get("/healthcheck")
-async def get_root():
+def get_root():
     log_event(HealthChecked())
 
 @api.post("/")

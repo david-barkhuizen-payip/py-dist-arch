@@ -1,3 +1,4 @@
+from datetime import datetime
 from enum import Enum
 from typing import Optional
 from pydantic import BaseModel
@@ -57,7 +58,7 @@ class QueueListenerStartingConsumption(BaseModel):
     queue_name: str
 
 class HealthChecked(BaseModel):
-    pass
+    timestamp: str
 
 class BuyOrderReadModelSynced(BaseModel):
     id: int

@@ -13,7 +13,7 @@ def configureApi(coinbase_client: CoinBaseClient):
     configure_logic(coinbase_client)
 
 @api.get("/healthcheck")
-async def get_root():
+def get_root():
     log_event(HealthChecked())
 
 @api.get("/buy")

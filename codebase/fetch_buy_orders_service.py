@@ -1,13 +1,13 @@
 from typing import Optional
 
 from sqlalchemy.engine.base import Engine
-from util.service_base import ServiceDefinition, serve
+from util.service_base import ServiceDefinition, launch_uvicorn_server
 from services.migration.client import MigrationServiceClient
 from util.env import database_endpoint_from_env, endpoint_from_env
 
 from model.common import DatabaseEndPoint, Endpoint, Service
 from util.db import get_tested_database_engine
-from services.fetch_buy_orders.service import api, configure_api
+from services.fetch_buy_orders.service import configure_api
 
 def service_definition():
 
@@ -30,4 +30,5 @@ def service_definition():
 
     return ServiceDefinition(Service.FETCH_BUY_ORDERS, configure_service, None, api)
 
-serve(service_definition())
+if __name__ == '__main__':
+    launch_uvicorn_server(service_definition())

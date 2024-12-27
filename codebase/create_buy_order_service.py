@@ -1,12 +1,12 @@
 from typing import Optional
 from sqlalchemy.engine.base import Engine
 from model.common import DatabaseEndPoint, Endpoint, QueueEndpoint, Queue, Service
-from util.service_base import ServiceDefinition, serve
+from util.service_base import ServiceDefinition, launch_uvicorn_server
 from services.migration.client import MigrationServiceClient
 from util.env import database_endpoint_from_env, endpoint_from_env, queue_endpoint_from_env
 from util.db import get_tested_database_engine
 from util.queue import wait_for_configured_queue_publisher
-from services.create_buy_order.service import api, configure_api
+from services.create_buy_order.service import configure_api
 from services.btc_price.client import BtcPriceServiceClient
 
 def service_definition():
@@ -36,6 +36,7 @@ def service_definition():
         
         configure_api(write_model_engine, q_publisher, btc_price_service)
 
-    return ServiceDefinition(Service.CREATE_BUY_ORDER, configure_service, None, api)
+    return ServiceDefinition(Service.CREATE_BUY_ORDER, configure_service, None)
 
-serve(service_definition())
+if __name__ == '__main__':
+    launch_uvicorn_server(service_definition())

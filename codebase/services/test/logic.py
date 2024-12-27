@@ -1,7 +1,7 @@
 from typing import List, Optional
 from model.logevent import RequestReceivedLogEvent
 from services.merchant_pos_new_checkout.client import MerchantPosNewCheckoutClient
-from services.test_service.rqrsp import TestExport, TestRequest, TestResponse
+from services.test.rqrsp import TestExport, TestRequest, TestResponse
 from sqlalchemy.sql.expression import select
 from sqlalchemy.engine.base import Engine
 

@@ -2,11 +2,11 @@ from typing import Optional
 from services.iss_bank_new_pmt.client import IssuingBankNewCustomerPaymentClient
 from sqlalchemy.engine.base import Engine
 from model.common import DatabaseEndPoint, Endpoint, Service
-from util.service_base import ServiceDefinition, serve
+from util.service_base import ServiceDefinition, launch_uvicorn_server
 from services.migration.client import MigrationServiceClient
 from util.env import database_endpoint_from_env, endpoint_from_env
 from util.db import get_tested_database_engine
-from services.pmt_proc_new_pmt.service import api, configure_api
+from services.pmt_proc_new_pmt.service import configure_api
 
 def service_definition():
 
@@ -32,6 +32,7 @@ def service_definition():
         
         configure_api(write_model_engine, iss_bank_new_pmt_service)
 
-    return ServiceDefinition(Service.PMT_PROC_NEW_PMT, configure_service, None, api)
+    return ServiceDefinition(Service.PMT_PROC_NEW_PMT, configure_service, None)
 
-serve(service_definition())
+if __name__ == '__main__':
+    launch_uvicorn_server(service_definition())
