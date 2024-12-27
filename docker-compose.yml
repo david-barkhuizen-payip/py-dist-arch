@@ -54,6 +54,8 @@ services:
       - ${MIGRATION_PORT}
     # logging:
     #   driver: "none"
+    volumes:
+      - ./codebase:/application
 
   queue:
     container_name: ${Q_HOST}
@@ -88,6 +90,8 @@ services:
       - read_model
     logging:
       driver: "none"
+    volumes:
+      - ./codebase:/application
 
   merchant_pos_new_checkout:
     container_name: ${MERCHANT_POS_NEW_CHECKOUT_HOST}
@@ -105,6 +109,8 @@ services:
       - queue
       - pmt_proc_new_pmt
       - platform_new_receipt
+    volumes:
+      - ./codebase:/application
 
   pmt_proc_new_pmt:
     container_name: ${PMT_PROC_NEW_PMT_HOST}
@@ -121,6 +127,8 @@ services:
       - write_model     
       - queue
       - iss_bank_new_pmt
+    volumes:
+      - ./codebase:/application
 
   iss_bank_new_pmt:
     container_name: ${ISS_BANK_NEW_PMT_HOST}
@@ -137,6 +145,8 @@ services:
       - write_model     
       - queue
       - platform_new_pmt
+    volumes:
+      - ./codebase:/application
 
   platform_new_receipt:
     container_name: ${PLATFORM_NEW_RECEIPT_HOST}
@@ -152,6 +162,8 @@ services:
       - log
       - write_model     
       - queue
+    volumes:
+      - ./codebase:/application
 
   platform_new_pmt:
     container_name: ${PLATFORM_NEW_PMT_HOST}
@@ -167,6 +179,8 @@ services:
       - log
       - write_model     
       - queue
+    volumes:
+      - ./codebase:/application
 
   test:
     container_name: ${TEST_HOST}
@@ -182,6 +196,8 @@ services:
       - log
       - write_model     
       - merchant_pos_new_checkout
+    volumes:
+      - ./codebase:/application
 
 networks:
   internal:

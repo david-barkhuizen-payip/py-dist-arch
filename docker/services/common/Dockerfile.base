@@ -14,4 +14,4 @@ RUN /usr/local/bin/python -m pip install --upgrade pip
 COPY codebase/services/common_base/requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY codebase/ .
+# COPY codebase/ .

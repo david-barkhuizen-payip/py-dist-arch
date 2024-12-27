@@ -27,7 +27,7 @@ def configure_logic(
 
     merchant_pos_new_checkout_service = merchant_pos_new_checkout_service_
 
-def handle_new_test_request(client_id: int, rq: TestRequest):
+def handle_test_request(client_id: int, rq: TestRequest):
 
     return TestResponse(
         test=TestExport(    
