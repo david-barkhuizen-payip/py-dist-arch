@@ -2,13 +2,15 @@ import datetime
 import uuid
 from pydantic import BaseModel
 
+from model.common import Currency
+
 class PaymentProcessorNewCustomerPaymentRequest(BaseModel):
-    pass
+    currency: Currency
+    currency_amt: int
 
 class PaymentProcessorCustomerPaymentExport(BaseModel):
-    id: uuid.UUID
-    created_at: datetime.datetime
+    currency: Currency
+    currency_amt: int
 
 class PaymentProcessorNewCustomerPaymentResponse(BaseModel):
     payment: PaymentProcessorCustomerPaymentExport
-    successful: bool

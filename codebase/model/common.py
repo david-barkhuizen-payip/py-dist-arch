@@ -7,7 +7,7 @@ BUY_ORDER_BOOK_THRESHOLD_BTC = 1000000
 BTC_RATE_PRECISION = 40
 BTC_RATE_SCALE = 20
 
-class Currency(Enum):
+class Currency(str, Enum):
     USD = 'USD'
     EUR = 'EUR'
     GBP = 'GBP'

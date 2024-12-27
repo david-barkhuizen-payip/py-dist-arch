@@ -29,11 +29,19 @@ def configure_logic(
 
 def handle_test_request(client_id: int, rq: TestRequest):
 
-    merchant_pos_new_checkout_rsp = merchant_pos_new_checkout_service.new_checkout(rq.currency_amt)
+    rsp = merchant_pos_new_checkout_service.invoke(
+        currency_amt=rq.currency_amt,
+        currency=rq.currency,    
+    )
+
+
+    print('-'*20)
+    print(rsp)
+    print('-'*20)
 
     return TestResponse(
-            test=TestExport(
-                merchant_pos_checkout=merchant_pos_new_checkout_rsp.checkout
+        test=TestExport(
+            merchant_pos_checkout=rsp.checkout
         )
     )
 

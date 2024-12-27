@@ -35,6 +35,9 @@ def configure_logic(
 
 def handle_merchant_new_checkout_request(client_id: int, rq: MerchantNewCheckoutRequest):
 
+    payment = pmt_proc_new_pmt_service.invoke(currency_amt=rq.currency_amt, currency=rq.currency)
+    # platform new receipt
+
     return MerchantNewCheckoutResponse(
         checkout=MerchantPosCheckoutExport(
             id = uuid.uuid4(),

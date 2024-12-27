@@ -21,8 +21,8 @@ api = FastAPI()
 async def get_root():
     log_event(HealthChecked())
 
-@api.post("/customer_payment")
-def checkout(rq: PaymentProcessorNewCustomerPaymentRequest):
+@api.post("/")
+def new_payment(rq: PaymentProcessorNewCustomerPaymentRequest):
     return request_handler(
         'PaymentProcessorNewCustomerPaymentRequestReceived', 
         rq_received_logevent, 

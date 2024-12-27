@@ -1,6 +1,4 @@
-import datetime
 from typing import Callable, List, Optional
-import uuid
 from model.logevent import RequestReceivedLogEvent
 from services.iss_bank_new_pmt.client import IssuingBankNewCustomerPaymentClient
 from services.pmt_proc_new_pmt.rqrsp import PaymentProcessorCustomerPaymentExport, PaymentProcessorNewCustomerPaymentRequest, PaymentProcessorNewCustomerPaymentResponse
@@ -29,10 +27,16 @@ def configure_logic(write_engine_: Engine, iss_bank_new_pmt_service_: IssuingBan
 
     iss_bank_new_pmt_service = iss_bank_new_pmt_service_
 
-def handle_payment_processor_new_customer_payment_request(client_id: int, rq: PaymentProcessorNewCustomerPaymentRequest):
+def handle_payment_processor_new_customer_payment_request(
+    client_id: int, 
+    rq: PaymentProcessorNewCustomerPaymentRequest
+):
 
     return PaymentProcessorNewCustomerPaymentResponse(
-        payment=PaymentProcessorCustomerPaymentExport
+        payment=PaymentProcessorCustomerPaymentExport(
+            currency=rq.currency,
+            currency_amt=rq.currency_amt
+        )
     )
 
 def rq_received_logevent(client_id, rq):
