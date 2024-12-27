@@ -1,9 +1,9 @@
-from services.merchant_pos.rqrsp import MerchantNewCheckoutRequest, MerchantNewCheckoutResponse
+from services.merchant_pos_new_checkout.rqrsp import MerchantNewCheckoutRequest, MerchantNewCheckoutResponse
 from util.web import url_for_endpoint
 from model.common import Endpoint
 import requests
 
-class MerchantCheckoutClient:
+class MerchantPosNewCheckoutClient:
 
     def __init__(self, endpoint: Endpoint):
         self.endpoint = endpoint

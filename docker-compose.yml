@@ -89,14 +89,14 @@ services:
     logging:
       driver: "none"
 
-  merchant_pos:
-    container_name: ${MERCHANT_POS_HOST}
-    image: merchant_pos:latest
+  merchant_pos_new_checkout:
+    container_name: ${MERCHANT_POS_NEW_CHECKOUT_HOST}
+    image: merchant_pos_new_checkout:latest
     restart: always
     env_file:
       - ./dev.env
     expose:
-      - "${MERCHANT_POS_PORT}"
+      - "${MERCHANT_POS_NEW_CHECKOUT_PORT}"
     networks:
       - internal
     depends_on:
@@ -167,6 +167,21 @@ services:
       - log
       - write_model     
       - queue
+
+  test:
+    container_name: ${TEST_HOST}
+    image: test:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    expose:
+      - "${TEST_PORT}"
+    networks:
+      - internal
+    depends_on:
+      - log
+      - write_model     
+      - merchant_pos_new_checkout
 
 networks:
   internal:

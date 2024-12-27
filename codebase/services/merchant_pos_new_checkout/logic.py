@@ -2,7 +2,7 @@ import datetime
 from typing import Callable, List, Optional
 import uuid
 from model.logevent import RequestReceivedLogEvent
-from services.merchant_pos.rqrsp import MerchantCheckoutExport, MerchantNewCheckoutRequest, MerchantNewCheckoutResponse
+from services.merchant_pos_new_checkout.rqrsp import MerchantCheckoutExport, MerchantNewCheckoutRequest, MerchantNewCheckoutResponse
 from services.platform_new_receipt.client import PlatformNewReceiptClient
 from services.pmt_proc_new_pmt.client import PaymentProcessorNewPaymentClient
 from sqlalchemy.sql.expression import select
