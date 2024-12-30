@@ -98,23 +98,25 @@ services:
     volumes:
       - ./codebase:/application
 
-  # merchant_pos_new_checkout:
-  #   container_name: ${MERCHANT_POS_NEW_CHECKOUT_HOST}
-  #   image: merchant_pos_new_checkout:latest
-  #   env_file:
-  #     - ./dev.env
-  #   expose:
-  #     - "${MERCHANT_POS_NEW_CHECKOUT_PORT}"
-  #   networks:
-  #     - receipt_network
-  #   depends_on:
-  #     - log
-  #     - write_model     
-  #     - queue
-  #     # - pmt_proc_new_pmt
-  #     # - platform_new_receipt
-  #   volumes:
-  #     - ./codebase:/application
+  merchant_pos_new_checkout:
+    container_name: ${MERCHANT_POS_NEW_CHECKOUT_HOST}
+    image: merchant_pos_new_checkout:latest
+    env_file:
+      - ./dev.env
+    expose:
+      - "${MERCHANT_POS_NEW_CHECKOUT_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+      # - pmt_proc_new_pmt
+      # - platform_new_receipt
+    volumes:
+      - ./codebase:/application
 
 
 

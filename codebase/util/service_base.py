@@ -13,7 +13,7 @@ from util.env import env_int, env_str
 
 def launch_uvicorn_server(
     service: Service, 
-    before_launching_rest_server: Callable = None,
+    before_launching_server: Callable = None,
     wait_for_migrations: bool = True
 ):
 
@@ -22,9 +22,9 @@ def launch_uvicorn_server(
     if wait_for_migrations:
         MigrationServiceClient.wait_until_ready()
 
-    if before_launching_rest_server:
+    if before_launching_server:
         try:
-            before_launching_rest_server()
+            before_launching_server()
         except:
             log_event(ServiceStartupLogicExceptionOccurred(info=traceback.format_exc()))
             raise
