@@ -1,6 +1,6 @@
 import traceback
 from util.env import endpoint_from_env
-from util.web import url_for_endpoint
+from util.web import http_get, url_for_endpoint
 import time
 from model.logevent import MigrationsServiceConnectionError, WaitingForMigrations
 from util.structured_logging import log_event
@@ -24,10 +24,9 @@ class MigrationServiceClient:
     def is_migrated(self):
         try:      
             url = url_for_endpoint(self.endpoint)
-            status_code = requests.get(url).status_code
+            status_code = http_get(url).status_code
             return status_code == 200
         except:
-            log_event(MigrationsServiceConnectionError(error_text=traceback.format_exc()))
             return False
 
     def wait_for_migrations(self):

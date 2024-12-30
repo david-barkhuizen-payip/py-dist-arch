@@ -113,12 +113,109 @@ services:
       - write_model
       - read_model     
       - migration
-      # - pmt_proc_new_pmt
-      # - platform_new_receipt
+      - pmt_proc_new_pmt
+      - platform_new_receipt
     volumes:
       - ./codebase:/application
 
+  iss_bank_new_pmt:
+    container_name: ${ISS_BANK_NEW_PMT_HOST}
+    image: iss_bank_new_pmt:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    expose:
+      - "${ISS_BANK_NEW_PMT_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+      # - platform_new_payment
+    volumes:
+      - ./codebase:/application
 
+  pmt_proc_new_pmt:
+    container_name: ${PMT_PROC_NEW_PMT_HOST}
+    image: pmt_proc_new_pmt:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    expose:
+      - "${PMT_PROC_NEW_PMT_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+      - iss_bank_new_pmt
+    volumes:
+      - ./codebase:/application
+
+  platform_new_pmt:
+    container_name: ${PLATFORM_NEW_PMT_HOST}
+    image: platform_new_pmt:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    expose:
+      - "${PLATFORM_NEW_PMT_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+    volumes:
+      - ./codebase:/application
+
+  platform_new_receipt:
+    container_name: ${PLATFORM_NEW_RECEIPT_HOST}
+    image: platform_new_receipt:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    expose:
+      - "${PLATFORM_NEW_RECEIPT_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+    volumes:
+      - ./codebase:/application
+
+  test:
+    container_name: ${TEST_HOST}
+    image: test:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    expose:
+      - "${TEST_PORT}"
+    ports:
+      - "${TEST_EXT_PORT}:${TEST_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+    volumes:
+      - ./codebase:/application
 
 
 networks:

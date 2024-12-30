@@ -1,6 +1,6 @@
 import requests
 from model.common import Endpoint
-from util.web import url_for_endpoint
+from util.web import http_post, url_for_endpoint
 
 
 class ServiceClientBase:
@@ -13,9 +13,11 @@ class ServiceClientBase:
     def invoke(self, **kwargs):
 
         rq = self.TRq(**kwargs)
-        print(rq)
 
-        http_rsp = requests.post(f'{url_for_endpoint(self.endpoint)}', json=rq.dict())
+        http_rsp = http_post(
+            url=f'{url_for_endpoint(self.endpoint)}', 
+            json=rq.dict()
+        )
 
         if http_rsp.status_code != 200: # TODO 201 Created ?
             print(str(http_rsp))

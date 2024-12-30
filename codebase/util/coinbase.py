@@ -3,7 +3,7 @@ from model.logevent import CoinbaseClientExceptionOccurred
 from model.common import Endpoint
 from util.structured_logging import log_event
 from pydantic import BaseModel
-from util.web import url_for_endpoint
+from util.web import http_get, url_for_endpoint
 import requests
 
 class CoinbasePriceQuote(BaseModel):
@@ -23,7 +23,7 @@ class CoinBaseClient:
 
         url = f'{url_for_endpoint(self.endpoint)}/{price_type}'
         try:
-            json = requests.get(url, { 'currency': currency }).json()
+            json = http_get(url, json={ 'currency': currency }).json()
             cb_rsp = CoinbasePriceQuoteResponse.parse_obj(json)
             return cb_rsp.data
         except:

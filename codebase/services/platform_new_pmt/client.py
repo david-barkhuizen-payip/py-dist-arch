@@ -1,5 +1,5 @@
 from services.platform_new_pmt.rqrsp import PlatformNewPaymentRequest, PlatformNewPaymentResponse
-from util.web import url_for_endpoint
+from util.web import http_post, url_for_endpoint
 from model.common import Endpoint
 import requests
 
@@ -10,8 +10,7 @@ class PlatformNewPaymentClient:
 
     def new_payment(self):
 
-        url = f'{url_for_endpoint(self.endpoint)}'
-        http_rsp = requests.post(url, PlatformNewPaymentRequest())
+        http_rsp = http_post(f'{url_for_endpoint(self.endpoint)}', json=PlatformNewPaymentRequest())
 
         if http_rsp.status_code != 200:
             raise f'platform new customer payment error: {http_rsp.text}'

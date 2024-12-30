@@ -1,4 +1,4 @@
-from model.common import DatabaseEndPoint, Endpoint, QueueEndpoint, Queue
+from model.common import DatabaseEndPoint, Endpoint, QueueEndpoint, Queue, Service
 import os
 
 def env_str(key: str):
@@ -22,8 +22,11 @@ def database_endpoint_from_env(prefix: str):
         retry_wait_s=env_int(f'{prefix}_RETRY_WAIT_S')
     )
 
-def endpoint_from_env(prefix: str, no_path: bool = True):
-    prefix = prefix.upper()
+def endpoint_from_env(prefix, no_path: bool = True):
+
+    prefix_str = prefix.value if isinstance(prefix, Service) else str(prefix)
+
+    prefix = prefix_str.upper()
     return Endpoint(
         protocol=env_str(f'{prefix}_PROTOCOL'),
         host=env_str(f'{prefix}_HOST'),
