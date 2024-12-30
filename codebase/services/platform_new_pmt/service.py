@@ -3,7 +3,7 @@ from util.service import request_handler
 from services.platform_new_pmt.logic import configure_logic, handle_platform_new_payment_request, rq_received_logevent
 
 from sqlalchemy.engine.base import Engine
-from util.events import log_event
+from util.structured_logging import log_event
 
 from fastapi import FastAPI
 

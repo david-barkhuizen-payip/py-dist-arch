@@ -101,7 +101,7 @@ class BtcPriceClientFailed(BaseModel):
 class ServiceConfigurationExceptionOccurred(BaseModel):
     info: str
 
-class ServiceRunLogicExceptionOccurred(BaseModel):
+class ServiceStartupLogicExceptionOccurred(BaseModel):
     info: str
 
 class ServiceWebServeExceptionOccurred(BaseModel):

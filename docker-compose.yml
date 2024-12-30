@@ -13,19 +13,21 @@ services:
       - ${LOGGING_PORT}
       - "${LOGGING_PORT}/udp"
     networks:
-      - internal
+      - receipt_network
 
   write_model:
     container_name: ${WRITE_MODEL_DB_HOST}
     image: write_model:latest
     networks:
-      - internal
+      - receipt_network
     environment:
       POSTGRES_PASSWORD: ${WRITE_MODEL_POSTGRES_PASSWORD}
       POSTGRES_USER: ${WRITE_MODEL_POSTGRES_USER}
       POSTGRES_DB: ${WRITE_MODEL_POSTGRES_DB}
     expose:
       - "${WRITE_MODEL_DB_PORT}"
+    ports:
+      - "${WRITE_MODEL_DB_PORT}:${WRITE_MODEL_DB_EXT_PORT}"
     logging:
       driver: "none"
 
@@ -33,39 +35,23 @@ services:
     container_name: ${READ_MODEL_DB_HOST}
     image: read_model:latest
     networks:
-      - internal
+      - receipt_network
     environment:
       POSTGRES_PASSWORD: ${READ_MODEL_POSTGRES_PASSWORD}
       POSTGRES_USER: ${READ_MODEL_POSTGRES_USER}
       POSTGRES_DB: ${READ_MODEL_POSTGRES_DB}
     expose:
       - "${READ_MODEL_DB_PORT}"
+    # ports:
+    #   - "${READ_MODEL_DB_PORT}:${READ_MODEL_DB_EXT_PORT}"
     logging:
       driver: "none"
-
-  migration:
-    container_name: ${MIGRATION_HOST}
-    image: migration:latest
-    networks:
-      - internal
-    env_file:
-      - ./dev.env
-    expose:
-      - ${MIGRATION_PORT}
-    ports:
-      - "${MIGRATION_PORT}:${MIGRATION_PORT}"
-
-
-    # logging:
-    #   driver: "none"
-    volumes:
-      - ./codebase:/application
 
   queue:
     container_name: ${Q_HOST}
     image: queue:latest
     networks:
-      - internal
+      - receipt_network
     # volumes:
     #   - ./log/rabbitmq/:/external/log/
     environment:
@@ -79,12 +65,25 @@ services:
     logging:
       driver: "none"
 
+  migration:
+    container_name: ${MIGRATION_HOST}
+    image: migration:latest
+    networks:
+      - receipt_network
+    env_file:
+      - ./dev.env
+    expose:
+      - ${MIGRATION_PORT}
+    logging:
+      driver: "none"
+    volumes:
+      - ./codebase:/application
 
   read_model_sync:
     container_name: ${READ_MODEL_SYNC_HOST}
     image: read_model_sync:latest
     networks:
-      - internal
+      - receipt_network
     expose:
       - ${Q_PORT}
     env_file:
@@ -94,52 +93,35 @@ services:
       - queue
       - read_model
       - migration
-    logging:
-      driver: "none"
+    # logging:
+    #   driver: "none"
     volumes:
       - ./codebase:/application
 
-  # test:
-  #   container_name: ${TEST_HOST}
-  #   image: test:latest
-  #   restart: always
+  # merchant_pos_new_checkout:
+  #   container_name: ${MERCHANT_POS_NEW_CHECKOUT_HOST}
+  #   image: merchant_pos_new_checkout:latest
   #   env_file:
   #     - ./dev.env
   #   expose:
-  #     - "${TEST_PORT}"
-  #   ports:
-  #     - "${TEST_EXT_PORT}:${TEST_PORT}"
+  #     - "${MERCHANT_POS_NEW_CHECKOUT_PORT}"
   #   networks:
-  #     - internal
-  #   depends_on:
-  #     - log
-  #     - write_model     
-  #     - migration
-  #   volumes:
-  #     - ./codebase:/application
-
-  # platform_new_pmt:
-  #   container_name: ${PLATFORM_NEW_PMT_HOST}
-  #   image: platform_new_pmt:latest
-  #   restart: always
-  #   env_file:
-  #     - ./dev.env
-  #   expose:
-  #     - "${PLATFORM_NEW_PMT_PORT}"
-  #   networks:
-  #     - internal
+  #     - receipt_network
   #   depends_on:
   #     - log
   #     - write_model     
   #     - queue
-  #     - migration
+  #     # - pmt_proc_new_pmt
+  #     # - platform_new_receipt
   #   volumes:
   #     - ./codebase:/application
 
 
+
+
 networks:
-  internal:
-    name: internal_network
+  receipt_network:
+    name: receipt_network
 
 volumes:
   logging_data:

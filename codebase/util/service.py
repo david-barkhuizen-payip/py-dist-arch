@@ -3,7 +3,7 @@ import traceback
 import uuid
 from model.logevent import RequestFailed
 from typing import Callable
-from util.events import log_event
+from util.structured_logging import log_event
 
 def request_handler(request_name: str, log_event_model: Callable, callback: Callable):
     

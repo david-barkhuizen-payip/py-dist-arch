@@ -2,7 +2,7 @@ from services.iss_bank_new_pmt.rqrsp import IssuingBankNewPaymentRequest
 from services.platform_new_pmt.client import PlatformNewPaymentClient
 
 from sqlalchemy.engine.base import Engine
-from util.events import log_event
+from util.structured_logging import log_event
 from fastapi import FastAPI
 
 from util.service import request_handler

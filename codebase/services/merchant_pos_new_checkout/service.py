@@ -1,5 +1,5 @@
 from sqlalchemy.engine.base import Engine
-from util.events import log_event
+from util.structured_logging import log_event
 from fastapi import FastAPI
 
 from services.merchant_pos_new_checkout.rqrsp import MerchantNewCheckoutRequest

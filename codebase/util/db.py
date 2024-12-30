@@ -6,7 +6,7 @@ import time
 from sqlalchemy import create_engine
 from sqlalchemy.sql.expression import text
 
-from util.events import log_event
+from util.structured_logging import log_event
 from model.logevent import ConnectedToDatabase, FailedToConnectToDatabase
 
 def connection_string(port, host, database, user, password):

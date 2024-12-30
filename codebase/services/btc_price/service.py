@@ -4,7 +4,7 @@ from fastapi import FastAPI
 
 from model.logevent import HealthChecked
 from util.coinbase import CoinBaseClient
-from util.events import log_event
+from util.structured_logging import log_event
 from util.service import request_handler
 
 api = FastAPI()

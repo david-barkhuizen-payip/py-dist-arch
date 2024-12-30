@@ -2,38 +2,31 @@ import sys, traceback
 from typing import Callable, Optional
 from dataclasses import dataclass
 
+from services.migration.client import MigrationServiceClient
 import uvicorn
 
-from util.events import configure_and_test_logging
-from model.logevent import ServiceConfigurationExceptionOccurred, ServiceRunLogicExceptionOccurred, ServiceShutDown, ServiceWebServeExceptionOccurred
+from util.structured_logging import configure_structured_logging, configure_structured_logging
+from model.logevent import ServiceStartupLogicExceptionOccurred, ServiceWebServeExceptionOccurred
 from model.common import Service
-from util.events import log_event
+from util.structured_logging import log_event
 from util.env import env_int, env_str
-
-from dataclasses import dataclass
 
 def launch_uvicorn_server(
     service: Service, 
-    before_launching_server: Callable = None
+    before_launching_rest_server: Callable = None,
+    wait_for_migrations: bool = True
 ):
 
-    configure_and_test_logging(service)
+    configure_structured_logging(service)
 
-    host: str
-    port: int
+    if wait_for_migrations:
+        MigrationServiceClient.wait_until_ready()
 
-    try:
-        host=env_str('SERVICE_HOST')
-        port=env_int('SERVICE_PORT')
-    except:
-        log_event(ServiceConfigurationExceptionOccurred(info=traceback.format_exc()))
-        raise
-
-    if before_launching_server:
+    if before_launching_rest_server:
         try:
-            before_launching_server()
+            before_launching_rest_server()
         except:
-            log_event(ServiceRunLogicExceptionOccurred(info=traceback.format_exc()))
+            log_event(ServiceStartupLogicExceptionOccurred(info=traceback.format_exc()))
             raise
 
     try:
@@ -41,8 +34,8 @@ def launch_uvicorn_server(
             app=f'services.{service.value}.service:api',
             factory=True, 
 
-            host=host, 
-            port=port, 
+            host=env_str('SERVICE_HOST'), 
+            port=env_int('SERVICE_PORT'), 
             log_level="info",
 
             reload=True,

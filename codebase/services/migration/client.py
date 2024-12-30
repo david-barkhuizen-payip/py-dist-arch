@@ -1,14 +1,22 @@
 import traceback
+from util.env import endpoint_from_env
 from util.web import url_for_endpoint
 import time
 from model.logevent import MigrationsServiceConnectionError, WaitingForMigrations
-from util.events import log_event
+from util.structured_logging import log_event
 from model.common import Endpoint
 import requests
 from util.web import url_for_endpoint
 
 class MigrationServiceClient:
-    
+
+
+    @classmethod
+    def wait_until_ready(cls):
+        MigrationServiceClient(
+            endpoint_from_env('MIGRATION')
+        ).wait_for_migrations()
+
     def __init__(self, endpoint: Endpoint):
         self.endpoint = endpoint
         self.endpoint.path = '/healthcheck'

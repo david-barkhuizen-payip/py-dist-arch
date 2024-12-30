@@ -1,7 +1,7 @@
 import traceback
 from model.logevent import CoinbaseClientExceptionOccurred
 from model.common import Endpoint
-from util.events import log_event
+from util.structured_logging import log_event
 from pydantic import BaseModel
 from util.web import url_for_endpoint
 import requests

@@ -1,6 +1,6 @@
 import time
 from typing import Optional
-from util.env import env_float
+from util.env import env_float, env_int, env_str
 import os, traceback
 from fluent import sender
 from model.logevent import LoggingTag
@@ -8,8 +8,6 @@ from model.common import Service
 from pydantic.main import BaseModel
 import inflection
 
-LOGGING_HOST: str = os.environ['LOGGING_HOST']
-LOGGING_PORT: int = int(os.environ['LOGGING_PORT'])
 SERVICE: Service = None
 
 class ExceptionOccurred(BaseModel):
@@ -29,13 +27,12 @@ class FailedToConnectToLogging(BaseModel):
 def log_event(event_model: BaseModel):
 
     tag = inflection.underscore(type(event_model).__name__)
-
-    print(f'log_event: {LoggingTag.Root.value} - {SERVICE.value}')
+    print(f'log_event: {LoggingTag.Root.value} - {SERVICE.value}: {event_model}')
 
     fsender = sender.FluentSender(
         f'{LoggingTag.Root.value}.{SERVICE.value}', 
-        host=LOGGING_HOST, 
-        port=LOGGING_PORT
+        host=env_str('LOGGING_HOST'), 
+        port=env_int('LOGGING_PORT')
     )
 
     try:
@@ -47,18 +44,21 @@ def log_event(event_model: BaseModel):
 def log_exception(msg):
     log_event(ExceptionOccurred(msg=msg, stack_trace=traceback.format_exc()))
 
-def configure_and_test_logging(service_: Service):
 
-    retry_s = env_float('LOGGING_RETRY_S')
+def configure_structured_logging(service_: Service):
     
     global SERVICE
     SERVICE = service_
     
+    retry_s = 10
+
     while True:
         try:
+            retry_s = env_float('LOGGING_RETRY_S')
             log_event(ConnectedToLogging())
             print(f'{SERVICE.value} connected to logging')
             break
         except:
-            log_event(FailedToConnectToLogging(host=LOGGING_HOST, port=LOGGING_PORT, info=traceback.format_exc()))
+            msg = f'{SERVICE.value} failed to connect to logging'
+            print(msg)
             time.sleep(retry_s)

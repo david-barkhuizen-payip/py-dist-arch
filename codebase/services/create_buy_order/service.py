@@ -3,7 +3,7 @@ from services.create_buy_order.logic import configure_logic, handle_create_buy_o
 
 from sqlalchemy.engine.base import Engine
 from services.btc_price.client import BtcPriceServiceClient
-from util.events import log_event
+from util.structured_logging import log_event
 
 from fastapi import FastAPI
 
