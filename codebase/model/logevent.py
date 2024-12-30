@@ -83,6 +83,9 @@ class DatabaseMigrated(BaseModel):
 class WaitingForMigrations(BaseModel):
     pass
 
+class WaitedForMigrations(BaseModel):
+    pass
+
 class MigrationsServiceConnectionError(BaseModel):
     error_text: str
 

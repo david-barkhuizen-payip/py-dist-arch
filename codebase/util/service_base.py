@@ -1,12 +1,9 @@
-import sys, traceback
-from typing import Callable, Optional
-from dataclasses import dataclass
-
+import traceback
+from typing import Callable
 from services.migration.client import MigrationServiceClient
 import uvicorn
-
 from util.structured_logging import configure_structured_logging, configure_structured_logging
-from model.logevent import ServiceStartupLogicExceptionOccurred, ServiceWebServeExceptionOccurred
+from model.logevent import ServiceStartupLogicExceptionOccurred, ServiceWebServeExceptionOccurred, WaitedForMigrations
 from model.common import Service
 from util.structured_logging import log_event
 from util.env import env_int, env_str
@@ -21,6 +18,7 @@ def launch_uvicorn_server(
 
     if wait_for_migrations:
         MigrationServiceClient.wait_until_ready()
+        log_event(WaitedForMigrations())
 
     if before_launching_server:
         try:

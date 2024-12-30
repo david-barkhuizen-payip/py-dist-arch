@@ -9,14 +9,13 @@ from util.rqrsp import HealthCheckResponse
 
 def api():
 
-    app = FastAPI()
-
+    api = FastAPI()
     configure_structured_logging(Service.MIGRATION)
 
-    @app.get("/healthcheck")
+    @api.get("/healthcheck")
     async def get_healthcheck():
         timestamp = datetime.datetime.now().isoformat()
         log_event(HealthChecked(timestamp=timestamp))
         return HealthCheckResponse(timestamp=timestamp)
     
-    return app
+    return api

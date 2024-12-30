@@ -27,7 +27,7 @@ class FailedToConnectToLogging(BaseModel):
 def log_event(event_model: BaseModel):
 
     tag = inflection.underscore(type(event_model).__name__)
-    print(f'log_event: {LoggingTag.Root.value} - {SERVICE.value}: {event_model}')
+    #print(f'log_event: {LoggingTag.Root.value} - {SERVICE.value}: {event_model}')
 
     fsender = sender.FluentSender(
         f'{LoggingTag.Root.value}.{SERVICE.value}', 
