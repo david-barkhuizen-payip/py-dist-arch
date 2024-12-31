@@ -76,160 +76,160 @@ services:
       - ./dev.env
     expose:
       - ${MIGRATION_PORT}
-    # logging:
-    #   driver: "none"
+    logging:
+      driver: "none"
     volumes:
       - ./codebase:/application
 
-  # read_model_sync:
-  #   container_name: ${READ_MODEL_SYNC_HOST}
-  #   image: read_model_sync:latest
-  #   networks:
-  #     - receipt_network
-  #   expose:
-  #     - ${Q_PORT}
-  #   env_file:
-  #     - ./dev.env
-  #   depends_on:
-  #     - log
-  #     - queue
-  #     - read_model
-  #     - migration
-  #   logging:
-  #     driver: "none"
-  #   volumes:
-  #     - ./codebase:/application
+  read_model_sync:
+    container_name: ${READ_MODEL_SYNC_HOST}
+    image: read_model_sync:latest
+    networks:
+      - receipt_network
+    expose:
+      - ${Q_PORT}
+    env_file:
+      - ./dev.env
+    depends_on:
+      - log
+      - queue
+      - read_model
+      - migration
+    logging:
+      driver: "none"
+    volumes:
+      - ./codebase:/application
 
-  # merchant_pos_new_checkout:
-  #   container_name: ${MERCHANT_POS_NEW_CHECKOUT_HOST}
-  #   image: merchant_pos_new_checkout:latest
-  #   env_file:
-  #     - ./dev.env
-  #   expose:
-  #     - "${MERCHANT_POS_NEW_CHECKOUT_PORT}"
-  #   networks:
-  #     - receipt_network
-  #   depends_on:
-  #     - log
-  #     - queue
-  #     - write_model
-  #     - read_model     
-  #     - migration
-  #     - pmt_proc_new_pmt
-  #     - platform_new_receipt
-  #   volumes:
-  #     - ./codebase:/application
-  #   logging:
-  #     driver: "none"
+  merchant_pos_new_checkout:
+    container_name: ${MERCHANT_POS_NEW_CHECKOUT_HOST}
+    image: merchant_pos_new_checkout:latest
+    env_file:
+      - ./dev.env
+    expose:
+      - "${MERCHANT_POS_NEW_CHECKOUT_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+      - pmt_proc_new_pmt
+      - platform_new_receipt
+    volumes:
+      - ./codebase:/application
+    logging:
+      driver: "none"
 
-  # pmt_proc_new_pmt:
-  #   container_name: ${PMT_PROC_NEW_PMT_HOST}
-  #   image: pmt_proc_new_pmt:latest
-  #   restart: always
-  #   env_file:
-  #     - ./dev.env
-  #   expose:
-  #     - "${PMT_PROC_NEW_PMT_PORT}"
-  #   networks:
-  #     - receipt_network
-  #   depends_on:
-  #     - log
-  #     - queue
-  #     - write_model
-  #     - read_model     
-  #     - migration
-  #     - iss_bank_new_pmt
-  #   volumes:
-  #     - ./codebase:/application
-  #   logging:
-  #     driver: "none"
+  pmt_proc_new_pmt:
+    container_name: ${PMT_PROC_NEW_PMT_HOST}
+    image: pmt_proc_new_pmt:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    expose:
+      - "${PMT_PROC_NEW_PMT_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+      - iss_bank_new_pmt
+    volumes:
+      - ./codebase:/application
+    logging:
+      driver: "none"
 
-  # iss_bank_new_pmt:
-  #   container_name: ${ISS_BANK_NEW_PMT_HOST}
-  #   image: iss_bank_new_pmt:latest
-  #   restart: always
-  #   env_file:
-  #     - ./dev.env
-  #   expose:
-  #     - "${ISS_BANK_NEW_PMT_PORT}"
-  #   networks:
-  #     - receipt_network
-  #   depends_on:
-  #     - log
-  #     - queue
-  #     - write_model
-  #     - read_model     
-  #     - migration
-  #     # - platform_new_payment
-  #   volumes:
-  #     - ./codebase:/application
-  #   logging:
-  #     driver: "none"
+  iss_bank_new_pmt:
+    container_name: ${ISS_BANK_NEW_PMT_HOST}
+    image: iss_bank_new_pmt:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    expose:
+      - "${ISS_BANK_NEW_PMT_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+      # - platform_new_payment
+    volumes:
+      - ./codebase:/application
+    logging:
+      driver: "none"
 
-  # platform_new_pmt:
-  #   container_name: ${PLATFORM_NEW_PMT_HOST}
-  #   image: platform_new_pmt:latest
-  #   restart: always
-  #   env_file:
-  #     - ./dev.env
-  #   expose:
-  #     - "${PLATFORM_NEW_PMT_PORT}"
-  #   networks:
-  #     - receipt_network
-  #   depends_on:
-  #     - log
-  #     - queue
-  #     - write_model
-  #     - read_model     
-  #     - migration
-  #   volumes:
-  #     - ./codebase:/application
-  #   logging:
-  #     driver: "none"
+  platform_new_pmt:
+    container_name: ${PLATFORM_NEW_PMT_HOST}
+    image: platform_new_pmt:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    expose:
+      - "${PLATFORM_NEW_PMT_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+    volumes:
+      - ./codebase:/application
+    logging:
+      driver: "none"
 
-  # platform_new_receipt:
-  #   container_name: ${PLATFORM_NEW_RECEIPT_HOST}
-  #   image: platform_new_receipt:latest
-  #   restart: always
-  #   env_file:
-  #     - ./dev.env
-  #   expose:
-  #     - "${PLATFORM_NEW_RECEIPT_PORT}"
-  #   networks:
-  #     - receipt_network
-  #   depends_on:
-  #     - log
-  #     - queue
-  #     - write_model
-  #     - read_model     
-  #     - migration
-  #   volumes:
-  #     - ./codebase:/application
-  #   logging:
-  #     driver: "none"
+  platform_new_receipt:
+    container_name: ${PLATFORM_NEW_RECEIPT_HOST}
+    image: platform_new_receipt:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    expose:
+      - "${PLATFORM_NEW_RECEIPT_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+    volumes:
+      - ./codebase:/application
+    logging:
+      driver: "none"
 
-  # test:
-  #   container_name: ${TEST_HOST}
-  #   image: test:latest
-  #   restart: always
-  #   env_file:
-  #     - ./dev.env
-  #   expose:
-  #     - "${TEST_PORT}"
-  #   ports:
-  #     - "${TEST_EXT_PORT}:${TEST_PORT}"
-  #   networks:
-  #     - receipt_network
-  #   depends_on:
-  #     - log
-  #     - queue
-  #     - write_model
-  #     - read_model     
-  #     - migration
-  #   volumes:
-  #     - ./codebase:/application
-  #   logging:
-  #     driver: "none"
+  test:
+    container_name: ${TEST_HOST}
+    image: test:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    expose:
+      - "${TEST_PORT}"
+    ports:
+      - "${TEST_EXT_PORT}:${TEST_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+    volumes:
+      - ./codebase:/application
+    logging:
+      driver: "none"
 
 networks:
   receipt_network:

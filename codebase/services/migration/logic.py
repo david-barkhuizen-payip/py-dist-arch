@@ -1,5 +1,5 @@
 import traceback
-from model.logevent import DatabaseMigrated, DatabaseMigrationExceptionOccurred
+from model.logevent import DatabaseMigrated, DatabaseMigrationExceptionOccurred, PendingDatabaseMigrationsDetected
 from util.db import get_tested_database_engine
 from util.env import database_endpoint_from_env
 from util.structured_logging import log_event
@@ -19,21 +19,19 @@ def migrate(
         
         migrations = read_migrations(relative_folder_path)
 
-        print(ep)
-
-        print(f'{len(migrations)} migrations in total:')
-        for migration in migrations:
-            print(f'- {migration.id}')
-        
         migrations_to_apply = backend.to_apply(migrations)
 
-        print(f'{len(migrations_to_apply)} migrations to apply:')
-        for migration in migrations_to_apply:
-            print(f'- {migration.id}')
+        log_event(PendingDatabaseMigrationsDetected(
+            database=ep.database,
+            pending_migrations=[migration.id for migration in migrations_to_apply]
+        ))
 
         backend.apply_migrations(migrations_to_apply)
 
-        log_event(DatabaseMigrated(database=ep.database))
+        log_event(DatabaseMigrated(
+            database=ep.database,
+            migrations_applied=[migration.id for migration in migrations_to_apply]
+        ))
     except Exception:
         log_event(DatabaseMigrationExceptionOccurred(database=ep.database, info=traceback.format_exc()))
         raise

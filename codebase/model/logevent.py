@@ -79,6 +79,11 @@ class ServiceShutDown(BaseModel):
 
 class DatabaseMigrated(BaseModel):
     database: str
+    migrations_applied: list[str]
+
+class PendingDatabaseMigrationsDetected(BaseModel):
+    database: str
+    pending_migrations: list[str]
 
 class WaitingForMigrations(BaseModel):
     pass
