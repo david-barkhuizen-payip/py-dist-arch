@@ -65,7 +65,7 @@ services:
       RABBITMQ_NODE_PORT: ${Q_PORT}
       # RABBITMQ_LOGS: '/var/log/rabbitmq/rabbitmq.log'
     ports:
-      - "${Q_EXT_ADMIN_PORT}:15672"
+      - "${Q_EXT_ADMIN_PORT}:${Q_INT_ADMIN_PORT}"
     expose:
       - ${Q_PORT}
     logging:
@@ -123,8 +123,8 @@ services:
       - platform_new_receipt
     volumes:
       - ./codebase:/application
-    logging:
-      driver: "none"
+    # logging:
+    #   driver: "none"
 
   pmt_proc_new_pmt:
     container_name: ${PMT_PROC_NEW_PMT_HOST}
@@ -232,8 +232,8 @@ services:
       - migration
     volumes:
       - ./codebase:/application
-    logging:
-      driver: "none"
+    # logging:
+    #   driver: "none"
 
 networks:
   receipt_network:

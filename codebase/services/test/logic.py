@@ -1,33 +1,10 @@
-from typing import List, Optional
 from model.common import Service
 from model.logevent import RequestReceivedLogEvent
 from services.merchant_pos_new_checkout.client import MerchantPosNewCheckoutClient
+from services.merchant_pos_new_checkout.rqrsp import MerchantNewCheckoutRequest
 from services.test.rqrsp import TestExport, TestRequest, TestResponse
-from sqlalchemy.sql.expression import select
-from sqlalchemy.engine.base import Engine
-
-from sqlalchemy.orm import Session
-
-from model.orm.write_model import Currency
 from util.env import endpoint_from_env
 
-write_engine: Optional[Engine] = None
-currencies: List[Currency] = None
-
-
-def configure_logic(
-    write_engine_: Engine, 
-    merchant_pos_new_checkout_service_: MerchantPosNewCheckoutClient, 
-):
-    global write_engine, merchant_pos_new_checkout_service
-    
-    write_engine = write_engine_
-
-    with Session(write_engine) as db_session:
-        stmt = select(Currency)
-        _ = db_session.execute(stmt).scalars().all()
-
-    merchant_pos_new_checkout_service = merchant_pos_new_checkout_service_
 
 def handle_test_request(client_id: int, rq: TestRequest):
 
@@ -35,14 +12,12 @@ def handle_test_request(client_id: int, rq: TestRequest):
         endpoint_from_env(Service.MERCHANT_POS_NEW_CHECKOUT)
     )
 
-    rsp = merchant_pos_new_checkout_service.invoke(
-        currency_amt=rq.currency_amt,
-        currency=rq.currency,    
+    rsp = merchant_pos_new_checkout_service.post(
+        MerchantNewCheckoutRequest(
+            currency_amt=rq.currency_amt,
+            currency=rq.currency.value,
+        )
     )
-
-    print('-'*20)
-    print(rsp)
-    print('-'*20)
 
     return TestResponse(
         test=TestExport(

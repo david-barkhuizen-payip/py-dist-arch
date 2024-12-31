@@ -1,4 +1,3 @@
-from model.logevent import RequestReceivedLogEvent
 from services.iss_bank_new_pmt.rqrsp import IssuingBankPaymentExport, IssuingBankNewPaymentRequest, IssuingBankNewPaymentResponse
 from services.platform_new_pmt.client import PlatformNewPaymentClient
 from util.env import endpoint_from_env

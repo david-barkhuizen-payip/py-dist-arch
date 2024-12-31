@@ -9,15 +9,17 @@ def request_handler(TRqModel, callback: Callable):
     
     def handle(*args):
         
+        rq = args[0] 
+
         # NEXT determine client_id from stateless header-sourced authentication token
         client_id: int = 1        
 
         try:
             log_event(RequestReceivedLogEvent(
-                rq=f'{args}'
+                rq=str(rq)
             ))
 
-            rsp = callback(client_id, *args)
+            rsp = callback(client_id, rq)
 
             log_event(ResponseReturnedLogEvent(
                 rsp=str(rsp)

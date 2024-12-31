@@ -1,7 +1,7 @@
 import datetime
 import uuid
-from model.common import SUPPORTED_CURRENCIES, Currency
-from pydantic import BaseModel, validator
+from model.common import Currency
+from pydantic import BaseModel
 
 class MerchantNewCheckoutRequest(BaseModel):
     currency_amt: int

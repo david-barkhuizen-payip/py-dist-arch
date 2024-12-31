@@ -15,7 +15,7 @@ def api():
 
     register_healthcheck_endpoint(api)
 
-    @api.post("/checkout")
+    @api.post("/")
     def checkout(rq: TestRequest):
         return request_handler(
             TestRequest, 

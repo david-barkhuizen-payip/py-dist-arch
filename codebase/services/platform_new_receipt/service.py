@@ -3,9 +3,8 @@ from services.platform_new_receipt.rqrsp import PlatformNewReceiptRequest
 from util.service import request_handler
 from services.platform_new_receipt.logic import handle_platform_new_receipt_request
 from util.service_base import register_healthcheck_endpoint
-from util.structured_logging import configure_structured_logging, log_event
+from util.structured_logging import configure_structured_logging
 from fastapi import FastAPI
-from model.logevent import HealthChecked
 
 
 def api():
