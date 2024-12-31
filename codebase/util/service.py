@@ -1,7 +1,7 @@
 from fastapi.exceptions import HTTPException
 import traceback
 import uuid
-from model.logevent import RequestFailed
+from model.logevent import RequestFailed, RequestReceivedLogEvent, ResponseReturnedLogEvent
 from typing import Callable
 from util.structured_logging import log_event
 
@@ -13,7 +13,16 @@ def request_handler(TRqModel, callback: Callable):
         client_id: int = 1        
 
         try:
+            log_event(RequestReceivedLogEvent(
+                rq=f'{args}'
+            ))
+
             rsp = callback(client_id, *args)
+
+            log_event(ResponseReturnedLogEvent(
+                rsp=str(rsp)
+            ))
+
             return rsp
         except:
             error_reference = uuid.uuid4()

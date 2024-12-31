@@ -3,8 +3,7 @@
 *.pyc
 __pycache__
 
-#.env
-
 # mapped docker volumes
+#
 mapped_volumes/write_model/var_lib_postgresql_data/
 mapped_volumes/read_model/var_lib_postgresql_data/

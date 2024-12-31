@@ -8,7 +8,10 @@ class LoggingTag(Enum):
 
 
 class RequestReceivedLogEvent(BaseModel):
-    text: str
+    rq: str
+
+class ResponseReturnedLogEvent(BaseModel):
+    rsp: str
 
 class CreateBuyOrderRequestReceived(BaseModel):
     currency: str

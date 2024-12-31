@@ -80,8 +80,8 @@ services:
       - ./dev.env
     expose:
       - ${MIGRATION_PORT}
-    # logging:
-    #   driver: "none"
+    logging:
+      driver: "none"
     volumes:
       - ./codebase:/application
 

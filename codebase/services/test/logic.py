@@ -51,4 +51,4 @@ def handle_test_request(client_id: int, rq: TestRequest):
     )
 
 def rq_received_logevent(client_id, rq):
-    return RequestReceivedLogEvent(text=str(rq))
+    return RequestReceivedLogEvent(rq=str(rq))
