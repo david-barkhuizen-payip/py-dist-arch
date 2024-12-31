@@ -30,8 +30,10 @@ services:
       - "${WRITE_MODEL_DB_PORT}"
     ports:
       - "${WRITE_MODEL_DB_EXT_PORT}:${WRITE_MODEL_DB_PORT}"
-    # logging:
-    #   driver: "none"
+    logging:
+      driver: "none"
+    volumes:
+      - ./mapped_volumes/write_model/var_lib_postgresql_data:/var/lib/postgresql/data
 
   read_model:
     container_name: ${READ_MODEL_DB_HOST}
@@ -45,9 +47,11 @@ services:
     expose:
       - "${READ_MODEL_DB_PORT}"
     # ports:
-    #   - "${READ_MODEL_DB_EXT_PORT}:${READ_MODEL_DB_PORT}"
+    # #   - "${READ_MODEL_DB_EXT_PORT}:${READ_MODEL_DB_PORT}"
     logging:
       driver: "none"
+    volumes:
+      - ./mapped_volumes/read_model/var_lib_postgresql_data:/var/lib/postgresql/data
 
   queue:
     container_name: ${Q_HOST}
@@ -76,8 +80,8 @@ services:
       - ./dev.env
     expose:
       - ${MIGRATION_PORT}
-    logging:
-      driver: "none"
+    # logging:
+    #   driver: "none"
     volumes:
       - ./codebase:/application
 

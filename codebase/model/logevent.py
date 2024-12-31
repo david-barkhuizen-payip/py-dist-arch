@@ -85,6 +85,9 @@ class PendingDatabaseMigrationsDetected(BaseModel):
     database: str
     pending_migrations: list[str]
 
+class DatabaseAlreadyMigrated(BaseModel):
+    database: str
+
 class WaitingForMigrations(BaseModel):
     pass
 

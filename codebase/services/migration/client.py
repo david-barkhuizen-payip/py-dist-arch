@@ -2,7 +2,7 @@ import traceback
 from util.env import endpoint_from_env
 from util.web import http_get, url_for_endpoint
 import time
-from model.logevent import MigrationsServiceConnectionError, WaitingForMigrations
+from model.logevent import MigrationsServiceConnectionError, WaitedForMigrations, WaitingForMigrations
 from util.structured_logging import log_event
 from model.common import Endpoint
 import requests
@@ -37,3 +37,5 @@ class MigrationServiceClient:
 
             log_event(WaitingForMigrations())
             time.sleep(float(self.endpoint.retry_wait_s))
+
+        log_event(WaitedForMigrations())

@@ -1,5 +1,5 @@
 import traceback
-from model.logevent import DatabaseMigrated, DatabaseMigrationExceptionOccurred, PendingDatabaseMigrationsDetected
+from model.logevent import DatabaseAlreadyMigrated, DatabaseMigrated, DatabaseMigrationExceptionOccurred, PendingDatabaseMigrationsDetected
 from util.db import get_tested_database_engine
 from util.env import database_endpoint_from_env
 from util.structured_logging import log_event
@@ -21,19 +21,28 @@ def migrate(
 
         migrations_to_apply = backend.to_apply(migrations)
 
-        log_event(PendingDatabaseMigrationsDetected(
-            database=ep.database,
-            pending_migrations=[migration.id for migration in migrations_to_apply]
-        ))
+        if len(migrations_to_apply) == 0:
+            log_event(DatabaseAlreadyMigrated(
+                database=ep.database
+            ))
+        elif len(migrations_to_apply) > 0:
+            
+            log_event(PendingDatabaseMigrationsDetected(
+                database=ep.database,
+                pending_migrations=[migration.id for migration in migrations_to_apply]
+            ))
 
-        backend.apply_migrations(migrations_to_apply)
+            backend.apply_migrations(migrations_to_apply)
 
-        log_event(DatabaseMigrated(
-            database=ep.database,
-            migrations_applied=[migration.id for migration in migrations_to_apply]
-        ))
-    except Exception:
-        log_event(DatabaseMigrationExceptionOccurred(database=ep.database, info=traceback.format_exc()))
+            log_event(DatabaseMigrated(
+                database=ep.database,
+                migrations_applied=[migration.id for migration in migrations_to_apply]
+            ))
+
+    except:
+        trace=traceback.format_exc()
+        print(trace)
+        log_event(DatabaseMigrationExceptionOccurred(database=ep.database, info=trace))
         raise
 
 def get_write_model_db_engine():
