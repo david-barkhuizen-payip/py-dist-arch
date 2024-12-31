@@ -3,6 +3,7 @@ from services.create_buy_order.logic import configure_logic, handle_create_buy_o
 
 from sqlalchemy.engine.base import Engine
 from services.btc_price.client import BtcPriceServiceClient
+from util.service_base import register_healthcheck_endpoint
 from util.structured_logging import log_event
 
 from fastapi import FastAPI
@@ -15,9 +16,7 @@ def configure_api(write_engine: Engine, q_publisher, btc_price_service: BtcPrice
 
 api = FastAPI()
 
-@api.get("/healthcheck")
-def get_root():
-    log_event(HealthChecked())
+register_healthcheck_endpoint(api)
 
 @api.put("/buy_order")
 def create_buy_order(rq: CreateBuyOrderRequest):

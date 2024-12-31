@@ -1,12 +1,21 @@
+import datetime
 import traceback
 from typing import Callable
 from services.migration.client import MigrationServiceClient
 import uvicorn
 from util.structured_logging import configure_structured_logging, configure_structured_logging
-from model.logevent import ServiceStartupLogicExceptionOccurred, ServiceWebServeExceptionOccurred
+from model.logevent import HealthChecked, ServiceStartupLogicExceptionOccurred, ServiceWebServeExceptionOccurred
 from model.common import Service
 from util.structured_logging import log_event
 from util.env import env_int, env_str
+
+
+def register_healthcheck_endpoint(api):
+
+    @api.get("/healthcheck")
+    def get_root():
+        log_event(HealthChecked(timestamp=datetime.datetime.now().isoformat()))
+
 
 def launch_uvicorn_server(
     service: Service, 
