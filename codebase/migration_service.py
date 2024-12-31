@@ -7,4 +7,4 @@ if __name__ == '__main__':
         service=Service.MIGRATION,
         before_launching_server=before_launching_migration_server,
         wait_for_migrations=False
-        )
+    )

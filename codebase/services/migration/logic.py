@@ -18,21 +18,18 @@ def migrate(
         backend = get_backend(f'postgresql://{ep.user}:{ep.pwd}@{ep.host}:{ep.port}/{ep.database}')
         
         migrations = read_migrations(relative_folder_path)
-        
+
+        print(ep)
+
+        print(f'{len(migrations)} migrations in total:')
         for migration in migrations:
-            print(str(migration))
-            print(dir(migration))
-            print(migration.load, migration.loaded)
+            print(f'- {migration.id}')
         
-
-        msg = f'{len(migrations)} migrations in total'
-        print(msg)
-
         migrations_to_apply = backend.to_apply(migrations)
 
-        msg = f'{len(migrations_to_apply)} migrations to apply'
-        print(msg)
-
+        print(f'{len(migrations_to_apply)} migrations to apply:')
+        for migration in migrations_to_apply:
+            print(f'- {migration.id}')
 
         backend.apply_migrations(migrations_to_apply)
 
