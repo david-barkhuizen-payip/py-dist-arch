@@ -4,7 +4,7 @@ from util.structured_logging import configure_structured_logging, log_event
 from fastapi import FastAPI
 from util.service import request_handler
 from model.logevent import HealthChecked
-from services.test.logic import handle_test_request, rq_received_logevent
+from services.test.logic import handle_test_request
 
 
 def api():
@@ -19,8 +19,7 @@ def api():
     @api.post("/checkout")
     def checkout(rq: TestRequest):
         return request_handler(
-            'TestRequestReceived', 
-            rq_received_logevent, 
+            TestRequest, 
             handle_test_request
         )(rq)
     

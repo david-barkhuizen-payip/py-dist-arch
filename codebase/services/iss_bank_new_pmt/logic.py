@@ -14,6 +14,3 @@ def handle_issuing_bank_new_payment_request(
     return IssuingBankNewPaymentResponse(
         payment=IssuingBankPaymentExport()
     )
-
-def rq_received_logevent(client_id, rq):
-    return RequestReceivedLogEvent(text=str(rq))

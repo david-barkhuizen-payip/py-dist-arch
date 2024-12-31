@@ -21,6 +21,3 @@ def handle_merchant_new_checkout_request(client_id: int, rq: MerchantNewCheckout
             client_id=client_id
         )
     )
-
-def rq_received_logevent(client_id, rq):
-    return RequestReceivedLogEvent(text=str(rq))

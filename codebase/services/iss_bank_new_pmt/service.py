@@ -3,7 +3,7 @@ from services.iss_bank_new_pmt.rqrsp import IssuingBankNewPaymentRequest
 from util.structured_logging import configure_structured_logging, log_event
 from fastapi import FastAPI
 from util.service import request_handler
-from services.iss_bank_new_pmt.logic import handle_issuing_bank_new_payment_request, rq_received_logevent
+from services.iss_bank_new_pmt.logic import handle_issuing_bank_new_payment_request
 from model.logevent import HealthChecked
 
 def api():
@@ -18,8 +18,7 @@ def api():
     @api.post("/")
     def new_payment(rq: IssuingBankNewPaymentRequest):
         return request_handler(
-            'IssuingBankNewPaymentRequest', 
-            rq_received_logevent, 
+            IssuingBankNewPaymentRequest,
             handle_issuing_bank_new_payment_request
         )(rq)
 

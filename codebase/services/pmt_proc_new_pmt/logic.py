@@ -20,6 +20,3 @@ def handle_payment_processor_new_customer_payment_request(
             currency_amt=rq.currency_amt
         )
     )
-
-def rq_received_logevent(client_id, rq):
-    return RequestReceivedLogEvent(text=str(rq))

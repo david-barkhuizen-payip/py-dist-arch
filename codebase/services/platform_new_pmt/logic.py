@@ -14,6 +14,3 @@ def handle_platform_new_payment_request(
     )
 
     return PlatformNewPaymentResponse()
-
-def rq_received_logevent(client_id, rq):
-    return RequestReceivedLogEvent(text=str(rq))
