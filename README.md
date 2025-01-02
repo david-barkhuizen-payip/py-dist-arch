@@ -174,3 +174,22 @@ Note:  the combination of (idempotence_key, currency, amount) must be unique
 Note:  `last_reference`  
 - refers to the id of the last row on the previous page  
 - is explictly returned for each page, for use in retrieving the next page
+
+
+-------------------------------------------------------------------------------
+
+
+# migrations
+
+yoyo migrations
+
+migration files @ codebase/model/migrations/write_model
+
+
+
+
+-------------------------------------------------------------------------------
+
+
+
+sudo snap install pgadmin4

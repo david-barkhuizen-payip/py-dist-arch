@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 export $(cat dev.env | xargs)
 
 echo
