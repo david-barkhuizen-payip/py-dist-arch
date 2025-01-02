@@ -3,9 +3,21 @@ from sqlalchemy.sql.sqltypes import DECIMAL
 
 from model.orm.write_model.write_model_base import WriteModelBase
 
-class PaymentProcessorNewPayment(WriteModelBase):
-    __tablename__ = 'payment_processor_new_payment'
+# Merchant
+# - id
+# - name
+# - URL
 
-    id = Column(Integer, primary_key=True)
-    currency = Column(String(3), nullable=False)
-    currency_amt = Column(DECIMAL(precision=12, scale=2), nullable=False)
+# IssuingBank
+# - id
+# - name
+# - URL
+
+# Transaction
+# - id
+# - timestamp
+# - merchant_id
+# - issuing_bank_id
+# - total
+# - currency
+# - reference
