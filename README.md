@@ -201,6 +201,12 @@ sudo snap install pgadmin4
 
 xxx = merchant_pos_callback
 
-create as new merchant_pos_callback service based on the issuer_bank_new_payment service pattern defined in codebase/iss_bank_new_pmt_service.py and codebase/services/iss_bank_new_pmt
+
+in python, create a new iss_bank_callback_service following the pattern for the existing merchant_pos_callback_service, as defined by the python source code files in folder codebase/services/merchant_pos_callback
+
+
+
+
+
 
 update the docker-compose definition in file docker-compose.yml to add a new service merchant_pos_callback based on the existing entry for iss_bank_new_pmt

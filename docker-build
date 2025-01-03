@@ -16,6 +16,7 @@ services=("write_model" \
 "platform_new_receipt" \
 "pmt_proc_new_pmt" \
 "iss_bank_new_pmt" \
+"iss_bank_callback" \
 "trigger")
 
 for service in "${services[@]}"; do

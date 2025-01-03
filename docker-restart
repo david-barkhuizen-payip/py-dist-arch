@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-. stop
-. prune
-. run
+. docker-stop
+. docker-prune
+. docker-run

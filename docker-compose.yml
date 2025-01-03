@@ -191,6 +191,27 @@ services:
     logging:
       driver: "none"
 
+  iss_bank_callback:
+    container_name: ${ISS_BANK_CALLBACK_HOST}
+    image: iss_bank_callback:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    expose:
+      - "${ISS_BANK_CALLBACK_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+    volumes:
+      - ./codebase:/application
+    logging:
+      driver: "none"
+
   platform_new_pmt:
     container_name: ${PLATFORM_NEW_PMT_HOST}
     image: platform_new_pmt:latest
