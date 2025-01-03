@@ -15,7 +15,7 @@ services=("write_model" \
 "platform_new_receipt" \
 "pmt_proc_new_pmt" \
 "iss_bank_new_pmt" \
-"test")
+"trigger")
 
 for service in "${services[@]}"; do
   tag="$service:latest"

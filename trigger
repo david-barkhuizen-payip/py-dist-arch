@@ -6,8 +6,8 @@ echo
 
 curl \
     -H "Content-Type: application/json" \
-    -d '{"currency_amt":888,"currency":"ZAR"}' \
-    -X POST ${TEST_PROTOCOL}://localhost:${TEST_EXT_PORT}/
+    -d '{}' \
+    -X POST ${TRIGGER_PROTOCOL}://localhost:${TRIGGER_EXT_PORT}/merchant_pos_new_checkout
 
 echo
 echo

@@ -11,8 +11,6 @@ class ServiceClientBase:
 
     def post(self, rq: BaseModel):
 
-        print(rq.json())
-
         http_rsp = http_post(
             url = f'{url_for_endpoint(self.endpoint)}',
             json = json.loads(rq.json())

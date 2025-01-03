@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # BUILD_OPTIONS="--no-cache"
 BUILD_OPTIONS=""
 ROOT="docker/services"

@@ -36,7 +36,7 @@ class Service(Enum):
     PLATFORM_NEW_PMT = 'platform_new_pmt'
     PLATFORM_NEW_RECEIPT = 'platform_new_receipt'
 
-    TEST = 'test'
+    TRIGGER = 'trigger'
 
 from model.common import Queue
 from pydantic import BaseModel

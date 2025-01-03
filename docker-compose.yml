@@ -212,16 +212,16 @@ services:
     logging:
       driver: "none"
 
-  test:
-    container_name: ${TEST_HOST}
-    image: test:latest
+  trigger:
+    container_name: ${TRIGGER_HOST}
+    image: trigger:latest
     restart: always
     env_file:
       - ./dev.env
     expose:
-      - "${TEST_PORT}"
+      - "${TRIGGER_PORT}"
     ports:
-      - "${TEST_EXT_PORT}:${TEST_PORT}"
+      - "${TRIGGER_EXT_PORT}:${TRIGGER_PORT}"
     networks:
       - receipt_network
     depends_on:
