@@ -29,13 +29,19 @@ class MigrationServiceClient:
         except:
             return False
 
-    def wait_for_migrations(self):
+    def wait_for_migrations(self, 
+        log_while_waiting: bool = False,
+        log_on_waited: bool = False
+    ):
 
         while True:
             if self.is_migrated():
                 break
-
-            log_event(WaitingForMigrations())
+            
+            if log_while_waiting:
+                log_event(WaitingForMigrations())
+            
             time.sleep(float(self.endpoint.retry_wait_s))
 
-        log_event(WaitedForMigrations())
+        if log_on_waited:
+            log_event(WaitedForMigrations())

@@ -80,8 +80,8 @@ services:
       - ./dev.env
     expose:
       - ${MIGRATION_PORT}
-    # logging:
-    #   driver: "none"
+    logging:
+      driver: "none"
     volumes:
       - ./codebase:/application
 
@@ -209,8 +209,8 @@ services:
       - migration
     volumes:
       - ./codebase:/application
-    logging:
-      driver: "none"
+    # logging:
+    #   driver: "none"
 
   trigger:
     container_name: ${TRIGGER_HOST}

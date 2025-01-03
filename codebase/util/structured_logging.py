@@ -45,7 +45,10 @@ def log_exception(msg):
     log_event(ExceptionOccurred(msg=msg, stack_trace=traceback.format_exc()))
 
 
-def configure_structured_logging(service_: Service):
+def configure_structured_logging(
+    service_: Service, 
+    log_on_successful_connection: bool = False
+):
     
     global SERVICE
     SERVICE = service_
@@ -53,11 +56,15 @@ def configure_structured_logging(service_: Service):
     retry_s = 10
 
     while True:
+
         try:
             retry_s = env_float('LOGGING_RETRY_S')
-            log_event(ConnectedToLogging())
-            print(f'{SERVICE.value} connected to logging')
+            
+            if log_on_successful_connection:
+                log_event(ConnectedToLogging())
+
             break
+
         except:
             msg = f'{SERVICE.value} failed to connect to logging'
             print(msg)
