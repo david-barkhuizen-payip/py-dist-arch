@@ -126,6 +126,27 @@ services:
     # logging:
     #   driver: "none"
 
+  merchant_pos_callback:
+    container_name: ${MERCHANT_POS_CALLBACK_HOST}
+    image: merchant_pos_callback:latest
+    restart: always
+    env_file:
+      - ./dev.env
+    expose:
+      - "${MERCHANT_POS_CALLBACK_PORT}"
+    networks:
+      - receipt_network
+    depends_on:
+      - log
+      - queue
+      - write_model
+      - read_model     
+      - migration
+    volumes:
+      - ./codebase:/application
+    logging:
+      driver: "none"
+
   pmt_proc_new_pmt:
     container_name: ${PMT_PROC_NEW_PMT_HOST}
     image: pmt_proc_new_pmt:latest

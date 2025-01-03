@@ -193,3 +193,14 @@ migration files @ codebase/model/migrations/write_model
 
 
 sudo snap install pgadmin4
+
+
+## codium command prompts
+
+### new service xxx
+
+xxx = merchant_pos_callback
+
+create as new merchant_pos_callback service based on the issuer_bank_new_payment service pattern defined in codebase/iss_bank_new_pmt_service.py and codebase/services/iss_bank_new_pmt
+
+update the docker-compose definition in file docker-compose.yml to add a new service merchant_pos_callback based on the existing entry for iss_bank_new_pmt
