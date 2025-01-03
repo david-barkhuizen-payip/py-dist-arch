@@ -1,5 +1,5 @@
 from model.common import Service
-from services.trigger.rqrsp import TriggerRequest, TriggerResponse
+from services.trigger.rqrsp import TriggerRequest
 from util.service_base import register_healthcheck_endpoint
 from util.structured_logging import configure_structured_logging
 from fastapi import FastAPI
