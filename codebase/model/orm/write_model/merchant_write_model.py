@@ -36,9 +36,9 @@ class Transaction(WriteModelBase):
 
     timestamp = Column(DateTime(timezone=True), nullable=False, server_default=func.now()) 
     
-    total_before_tax = Column(Integer(precision=12, scale=2), nullable=False)
-    sales_tax = Column(Integer(precision=12, scale=2), nullable=False)
-    total_after_tax = Column(Integer(precision=12, scale=2), nullable=False)
+    total_before_tax = Column(Integer())
+    sales_tax = Column(Integer())
+    total_after_tax = Column(Integer())
 
 class TransactionLine(WriteModelBase):
     __tablename__ = 'merchant_transaction_line'
