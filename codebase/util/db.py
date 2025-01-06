@@ -12,13 +12,13 @@ from model.logevent import ConnectedToDatabase, FailedToConnectToDatabase
 def connection_string(port, host, database, user, password):
     return f'postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}'
 
-def define_engine(ep: DatabaseEndPoint):
+def create_db_engine(ep: DatabaseEndPoint):
     return create_engine(connection_string(ep.port, ep.host, ep.database, ep.user, ep.pwd))
 
 def get_tested_database_engine(ep: DatabaseEndPoint):
     '''no retry if (retry_wait_s == 0)'''
 
-    engine = define_engine(ep)
+    engine = create_db_engine(ep)
 
     connected_db_name: Optional[str] = None
     while not connected_db_name:

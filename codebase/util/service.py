@@ -3,23 +3,26 @@ import traceback
 import uuid
 from model.logevent import RequestFailed, RequestReceivedLogEvent, ResponseReturnedLogEvent
 from typing import Callable
+from util.service_config_base import ServiceConfig, default_service_config
 from util.structured_logging import log_event
 
+_service_config: ServiceConfig = None
+
 def request_handler(TRqModel, callback: Callable):
-    
+
+    global _service_config
+    _service_config = default_service_config()
+
     def handle(*args):
         
-        rq = args[0] 
-
-        # NEXT determine client_id from stateless header-sourced authentication token
-        client_id: int = 1        
+        rq = args[0]     
 
         try:
             log_event(RequestReceivedLogEvent(
                 rq=str(rq)
             ))
 
-            rsp = callback(client_id, rq)
+            rsp = callback(_service_config, rq)
 
             log_event(ResponseReturnedLogEvent(
                 rsp=str(rsp)

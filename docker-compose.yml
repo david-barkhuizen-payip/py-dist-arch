@@ -123,8 +123,8 @@ services:
       - platform_new_receipt
     volumes:
       - ./codebase:/application
-    logging:
-      driver: "none"
+    # logging:
+    #   driver: "none"
 
   merchant_pos_callback:
     container_name: ${MERCHANT_POS_CALLBACK_HOST}
@@ -274,8 +274,8 @@ services:
       - migration
     volumes:
       - ./codebase:/application
-    logging:
-      driver: "none"
+    # logging:
+    #   driver: "none"
 
 networks:
   receipt_network:

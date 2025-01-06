@@ -1,13 +1,23 @@
-import datetime
-import uuid
-from model.common import Currency
+from typing import Optional
 from pydantic import BaseModel
 
+class MerchantPosNewCheckoutRequestLine(BaseModel):
+
+    sku_id: int
+    sku_count: int
+    currency_amount: int
+
 class MerchantPosNewCheckoutRequest(BaseModel):
-    currency_amt: int
-    currency: Currency
+
+    client_id: Optional[int] = None    
+
+    lines: list[MerchantPosNewCheckoutRequestLine]
+
+    currency: str
+
+    total_amount_before_tax: int
+    sales_tax_amount: int
+    total_amount_after_tax: int
 
 class MerchantPosNewCheckoutResponse(BaseModel):
-    id: uuid.UUID
-    client_id: int
-    created_at: datetime.datetime
+    rq: MerchantPosNewCheckoutRequest

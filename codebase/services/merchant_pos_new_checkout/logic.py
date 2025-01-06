@@ -14,7 +14,7 @@ def handle_merchant_pos_new_checkout_request(client_id: int, rq: MerchantPosNewC
     payment = pmt_proc_new_pmt_service.post(
         PaymentProcessorNewCustomerPaymentRequest(
             currency=rq.currency,
-            currency_amt=rq.currency_amt
+            currency_amt=rq.total_amount_after_tax
     ))
 
     # platform new receipt
@@ -26,7 +26,5 @@ def handle_merchant_pos_new_checkout_request(client_id: int, rq: MerchantPosNewC
     )
 
     return MerchantPosNewCheckoutResponse(
-        id = uuid.uuid4(),
-        created_at=datetime.datetime.now(),
-        client_id=client_id
+        rq=rq
     )

@@ -13,7 +13,7 @@ class Currency(WriteModelBase):
     decimal_places = Column(SMALLINT, nullable=False)
 
     def __repr__(self):
-       return f'id {self.id}: {self.iso3} ({self.dp} decimal places)'
+       return f'id {self.id}: {self.iso3} ({self.decimal_places} decimal places)'
 
 class Client(WriteModelBase):
     __tablename__ = 'merchant_client'
