@@ -1,4 +1,17 @@
 
+-- currency
+
+CREATE TABLE merchant_currency (
+
+    id INTEGER GENERATED ALWAYS AS IDENTITY,
+        PRIMARY KEY(id),
+
+    iso3 NCHAR(3) NOT NULL UNIQUE,
+
+    decimal_places SMALLINT NOT NULL
+        CHECK ((decimal_places > 0) AND (decimal_places <= 8))
+);
+
 
 -- Client
 
@@ -33,84 +46,90 @@ CREATE TABLE merchant_sku (
     price INTEGER NOT NULL
 );
 
--- Transaction
+-- Invoice
 
-CREATE TABLE merchant_transaction (
+CREATE TABLE merchant_invoice (
 
     id INTEGER GENERATED ALWAYS AS IDENTITY,
         PRIMARY KEY(id),
 
     client_id INTEGER NULL,
-    CONSTRAINT merchant_transaction_fk_client_id
+    CONSTRAINT merchant_invoice_fk_client_id
         FOREIGN KEY(client_id) 
 	    REFERENCES merchant_client(id), 
 
     timestamp TIMESTAMPTZ NOT NULL,
 
-    total_before_tax INTEGER NOT NULL,
-    sales_tax INTEGER NOT NULL,
-    total_after_tax INTEGER NOT NULL,
+    currency_id INTEGER NOT NULL,
+    CONSTRAINT fk_merchant_invoice_currency
+        FOREIGN KEY(currency_id) 
+	    REFERENCES merchant_currency(id),
 
-    currency VARCHAR(3) NOT NULL
+    total_amount_before_tax INTEGER NOT NULL,
+    sales_tax_amount INTEGER NOT NULL,
+    total_amount_after_tax INTEGER NOT NULL
 );
 
+-- InvoiceLine
 
--- TransactionPayment
-
-CREATE TABLE merchant_transaction_payment (
+CREATE TABLE merchant_invoice_line (
 
     id INTEGER GENERATED ALWAYS AS IDENTITY,
         PRIMARY KEY(id),
 
-    transaction_id INTEGER NOT NULL,
-    CONSTRAINT merchant_transaction_line_fk_transaction_id
-        FOREIGN KEY(transaction_id) 
-	    REFERENCES merchant_transaction(id), 
+    invoice_id INTEGER NOT NULL,
+    CONSTRAINT merchant_invoice_line_fk_invoice_id
+        FOREIGN KEY(invoice_id) 
+	    REFERENCES merchant_invoice(id), 
+
+    sku_id INTEGER NOT NULL,
+    CONSTRAINT merchant_invoice_line_fk_sku_id
+        FOREIGN KEY(sku_id) 
+	    REFERENCES merchant_sku(id), 
+
+    sku_count INTEGER NOT NULL,
+    currency_amount INTEGER NOT NULL
+);
+
+-- InvoicePayment
+
+CREATE TABLE merchant_invoice_payment (
+
+    id INTEGER GENERATED ALWAYS AS IDENTITY,
+        PRIMARY KEY(id),
+
+    invoice_id INTEGER NOT NULL,
+    CONSTRAINT merchant_invoice_payment_fk_invoice_id
+        FOREIGN KEY(invoice_id) 
+	    REFERENCES merchant_invoice(id), 
 
     timestamp TIMESTAMPTZ NOT NULL,
 
-    payment_amount INTEGER NOT NULL,
-    payment_currency VARCHAR(3) NOT NULL,
+    currency_id INTEGER NOT NULL,
+    CONSTRAINT fk_merchant_invoice_payment_currency
+        FOREIGN KEY(currency_id) 
+	    REFERENCES merchant_currency(id),
+    currency_amount INTEGER NOT NULL,
 
     payment_processor_id INTEGER NOT NULL,
-    CONSTRAINT merchant_transaction_payment_fk_payment_processor_id
+    CONSTRAINT merchant_sale_payment_fk_payment_processor_id
         FOREIGN KEY(payment_processor_id) 
 	    REFERENCES merchant_payment_processor(id), 
 
     payment_processor_reference VARCHAR(254) NOT NULL
 );
 
--- TransactionLine
 
-CREATE TABLE merchant_transaction_line (
+-- Invoice Receipt
 
-    id INTEGER GENERATED ALWAYS AS IDENTITY,
-        PRIMARY KEY(id),
-
-    transaction_id INTEGER NOT NULL,
-    CONSTRAINT merchant_transaction_line_fk_transaction_id
-        FOREIGN KEY(transaction_id) 
-	    REFERENCES merchant_transaction(id), 
-
-    sku_id INTEGER NOT NULL,
-    CONSTRAINT merchant_transaction_line_fk_sku_id
-        FOREIGN KEY(sku_id) 
-	    REFERENCES merchant_sku(id), 
-
-    unit_count INTEGER NOT NULL,
-    total INTEGER NOT NULL
-);
-
--- TransactionReceipt
-
-CREATE TABLE merchant_transaction_receipt (
+CREATE TABLE merchant_invoice_receipt (
 
     id INTEGER GENERATED ALWAYS AS IDENTITY,
         PRIMARY KEY(id),
 
-    transaction_id INTEGER NOT NULL,
-    CONSTRAINT merchant_transaction_receipt_fk_transaction_id
-        FOREIGN KEY(transaction_id) 
-	    REFERENCES merchant_transaction(id)
+    invoice_id INTEGER NOT NULL,
+    CONSTRAINT merchant_invoice_receipt_fk_invoice_id
+        FOREIGN KEY(invoice_id) 
+	    REFERENCES merchant_invoice(id)
 );
 

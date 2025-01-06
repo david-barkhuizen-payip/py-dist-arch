@@ -1,6 +1,6 @@
 import traceback
 from model.logevent import DatabaseAlreadyMigrated, DatabaseMigrated, DatabaseMigrationExceptionOccurred, PendingDatabaseMigrationsDetected
-from services.migration.seed_data.merchant_seed_data import seed_merchant_write_model_data
+from model.migrations.seed_data.merchant_seed_data import seed_merchant_write_model_data
 from util.db import get_tested_database_engine
 from util.env import database_endpoint_from_env
 from util.structured_logging import log_event
