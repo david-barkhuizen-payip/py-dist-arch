@@ -1,4 +1,0 @@
-FROM common-python-base:latest
-
-COPY codebase/services/btc_price/requirements.txt ./requirements.txt
-RUN pip install -r ./requirements.txt

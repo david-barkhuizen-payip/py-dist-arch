@@ -1,41 +1,5 @@
 # 12-factor Python Micro Service Architecture
 
-## Important Note on Authentication, Security & Data Persistence
-
-This demonstration system features no authentication, has not been secured, and is not intended for production use.  Furthermore, no guarantees are made as no data persistence.  While reasonable efforts have been mad eto source components from reputable sources, you use this system entirely at your own risk, and the author accepts no responsibility whatsoever for its use or misuse.
-
-## Functional Requirements
-
-API allows its clients to manage BTC buy orders. Clients place orders to purchase BTC for fiat at a market price. API does not create transactions on the Bitcoin blockchain, but simply stores the order information in its database for further processing.
-
-### Create Buy Order
-
-1. Creation of a Buy Order requires the following data at minimum:
-
-* currency - represents the currency (ISO3 code one of: EUR, GBP, USD)
-* amount - represents the amount of currency (0 < x < 1,000,000,000)
-
-2. Successful call should store the order in the database. The following info should be
-stored at a minimum:
-
-* id - order's unique identifier
-* amount - requested fiat amount
-* currency - requested fiat currency
-* exchange rate - value of BTC versus the requested fiat; BTC is the base currency and requested fiat is the quote currency; use the third-party API to source the exchange rates
-* bitcoin amount - amount of BTC which the requested amount of fiat buys at the exchange rate. Use a precision of 8 decimal digits, and always round up. Do not lose precision in calculations
-
-3. Buy Order creation must be idempotent.
-
-4. Sum of bitcoin amount of all orders stored in the system must not exceed 100BTC.
-
-System must not allow creation of new orders which would cause the constraint to be violated.
-
-### Fetch Buy Order Collection
-
-Returns Buy Orders stored in the database in reverse chronological order.
-
-Resources must have the following attributes at minimum: id, amount, currency, exchange rate, bitcoin amount. Responses must be paged. Response time should be the same regardless which page is requested.
-
 ## Architecture
 
 ### Component Technologies
@@ -210,3 +174,39 @@ Note:  the combination of (idempotence_key, currency, amount) must be unique
 Note:  `last_reference`  
 - refers to the id of the last row on the previous page  
 - is explictly returned for each page, for use in retrieving the next page
+
+
+-------------------------------------------------------------------------------
+
+
+# migrations
+
+yoyo migrations
+
+migration files @ codebase/model/migrations/write_model
+
+
+
+
+-------------------------------------------------------------------------------
+
+
+
+sudo snap install pgadmin4
+
+
+## codium command prompts
+
+### new service xxx
+
+xxx = merchant_pos_callback
+
+
+in python, create a new iss_bank_callback_service following the pattern for the existing merchant_pos_callback_service, as defined by the python source code files in folder codebase/services/merchant_pos_callback
+
+
+
+
+
+
+update the docker-compose definition in file docker-compose.yml to add a new service merchant_pos_callback based on the existing entry for iss_bank_new_pmt

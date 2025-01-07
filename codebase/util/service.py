@@ -1,33 +1,48 @@
 from fastapi.exceptions import HTTPException
 import traceback
 import uuid
-from model.logevent import RequestFailed
+from model.logevent import RequestFailed, RequestReceivedLogEvent, ResponseReturnedLogEvent
 from typing import Callable
-from util.events import log_event
+from util.service_config_base import ServiceConfig, default_service_config
+from util.structured_logging import log_event
 
-def request_handler(request_name: str, log_event_model: Callable, callback: Callable):
-    
+_service_config: ServiceConfig = None
+
+def request_handler(TRqModel, callback: Callable):
+
+    global _service_config
+    _service_config = default_service_config()
+
     def handle(*args):
         
-        # NEXT determine client_id from stateless header-sourced authentication token
-        client_id: int = 1        
+        rq = args[0]     
 
         try:
-            log_event(log_event_model(client_id, *args))
-            rsp = callback(client_id, *args)
+            log_event(RequestReceivedLogEvent(
+                rq=str(rq)
+            ))
+
+            rsp = callback(_service_config, rq)
+
+            log_event(ResponseReturnedLogEvent(
+                rsp=str(rsp)
+            ))
+
             return rsp
         except:
             error_reference = uuid.uuid4()
+            trace = traceback.format_exc()
+            print(trace)
             log_event( 
                 RequestFailed(
-                    request=request_name,
-                    error=traceback.format_exc(),
+                    request=TRqModel.__name__,
+                    error=trace,
                     reference=str(error_reference)
                 )
             )
             raise HTTPException(
                 status_code=500, 
-                detail=f'an error occurred.  please contact pydist support and quote reference {error_reference}'
+                detail=f'reference {error_reference} - {trace}'
             )
     
     return handle

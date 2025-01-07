@@ -1,9 +1,17 @@
+from datetime import datetime
 from enum import Enum
 from typing import Optional
 from pydantic import BaseModel
 
 class LoggingTag(Enum):
-    Root = 'pydist'
+    Root = 'receipts'
+
+
+class RequestReceivedLogEvent(BaseModel):
+    rq: str
+
+class ResponseReturnedLogEvent(BaseModel):
+    rsp: str
 
 class CreateBuyOrderRequestReceived(BaseModel):
     currency: str
@@ -53,7 +61,7 @@ class QueueListenerStartingConsumption(BaseModel):
     queue_name: str
 
 class HealthChecked(BaseModel):
-    pass
+    timestamp: str
 
 class BuyOrderReadModelSynced(BaseModel):
     id: int
@@ -74,8 +82,19 @@ class ServiceShutDown(BaseModel):
 
 class DatabaseMigrated(BaseModel):
     database: str
+    migrations_applied: list[str]
+
+class PendingDatabaseMigrationsDetected(BaseModel):
+    database: str
+    pending_migrations: list[str]
+
+class DatabaseAlreadyMigrated(BaseModel):
+    database: str
 
 class WaitingForMigrations(BaseModel):
+    pass
+
+class WaitedForMigrations(BaseModel):
     pass
 
 class MigrationsServiceConnectionError(BaseModel):
@@ -96,7 +115,7 @@ class BtcPriceClientFailed(BaseModel):
 class ServiceConfigurationExceptionOccurred(BaseModel):
     info: str
 
-class ServiceRunLogicExceptionOccurred(BaseModel):
+class ServiceStartupLogicExceptionOccurred(BaseModel):
     info: str
 
 class ServiceWebServeExceptionOccurred(BaseModel):

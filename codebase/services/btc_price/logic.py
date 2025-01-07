@@ -7,7 +7,7 @@ from fastapi.exceptions import HTTPException
 from model.logevent import BtcPriceRequested, BtcPriceQuoted
 from services.btc_price.rqrsp import GetBtcPriceQuoteResponse
 from util.coinbase import CoinBaseClient
-from util.events import log_event
+from util.structured_logging import log_event
 
 api = FastAPI()
 

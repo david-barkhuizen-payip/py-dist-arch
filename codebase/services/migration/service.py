@@ -1,10 +1,14 @@
 from fastapi import FastAPI
+from model.common import Service
+from util.service_base import register_healthcheck_endpoint
+from util.structured_logging import configure_structured_logging
 
-from model.logevent import HealthChecked
-from util.events import log_event
 
-api = FastAPI()
+def api():
 
-@api.get("/healthcheck")
-async def get_healtcheck():
-    log_event(HealthChecked())
+    api = FastAPI()
+    configure_structured_logging(Service.MIGRATION)
+
+    register_healthcheck_endpoint(api)
+    
+    return api

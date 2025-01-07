@@ -3,7 +3,7 @@ import datetime
 from typing import List, Optional
 
 from pydantic import BaseModel
-from pydantic.types import UUID4
+from pydantic.types import uuid4
 
 class BuyOrderPage(BaseModel):
     rows: List[BuyOrderExport]

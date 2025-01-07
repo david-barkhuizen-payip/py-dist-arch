@@ -1,67 +1,55 @@
-import sys, traceback
-from typing import Callable, Optional
-from dataclasses import dataclass
-
-from fastapi.applications import FastAPI
+import datetime
+import traceback
+from typing import Callable
+from services.migration.client import MigrationServiceClient
 import uvicorn
-
-from util.events import configure_and_wait_for_logging
-from model.logevent import ServiceConfigurationExceptionOccurred, ServiceRunLogicExceptionOccurred, ServiceShutDown, ServiceWebServeExceptionOccurred
+from util.structured_logging import configure_structured_logging, configure_structured_logging
+from model.logevent import HealthChecked, ServiceStartupLogicExceptionOccurred, ServiceWebServeExceptionOccurred
 from model.common import Service
-from util.events import log_event
+from util.structured_logging import log_event
 from util.env import env_int, env_str
 
-from dataclasses import dataclass
 
-@dataclass
-class ServiceDefinition:
-    service: Service
-    configure_service: Callable
-    run_logic: Callable
-    web_api: FastAPI
+def register_healthcheck_endpoint(api):
 
-def serve(service: ServiceDefinition):
+    @api.get("/healthcheck")
+    def get_root():
+        log_event(HealthChecked(timestamp=datetime.datetime.now().isoformat()))
 
-    configure_and_wait_for_logging(service.service)
+
+def launch_uvicorn_server(
+    service: Service, 
+    before_launching_server: Callable = None,
+    wait_for_migrations: bool = True
+):
+
+    configure_structured_logging(service)
+
+    if wait_for_migrations:
+        MigrationServiceClient.wait_until_ready()
+
+    if before_launching_server:
+        try:
+            before_launching_server()
+        except:
+            log_event(ServiceStartupLogicExceptionOccurred(info=traceback.format_exc()))
+            raise
 
     try:
+        uvicorn.run(
+            app=f'services.{service.value}.service:api',
+            factory=True, 
 
-        host: Optional[str] = None
-        port: Optional[int] = None
+            host=env_str('SERVICE_HOST'), 
+            port=env_int('SERVICE_PORT'), 
+            log_level="info",
 
-        try:
-            host=env_str('SERVICE_HOST')
-            port=env_int('SERVICE_PORT')
-
-            if service.configure_service:
-                service.configure_service()
-
-        except:
-            log_event(ServiceConfigurationExceptionOccurred(info=traceback.format_exc()))
-            raise
-
-        try:
-            if service.run_logic:
-                service.run_logic()
-        except:
-            log_event(ServiceRunLogicExceptionOccurred(info=traceback.format_exc()))
-            raise
-
-        try:
-            if service.web_api:
-                uvicorn.run(
-                    service.web_api, 
-                    host=host, 
-                    port=port, 
-                    log_level="info"
-                )
-        except:
-            log_event(ServiceWebServeExceptionOccurred(info=traceback.format_exc()))
-            raise
-
-        log_event(ServiceShutDown(exit_code = 0))
-        sys.exit(0)
-
+            reload=True,
+            reload_dirs=["/application"],
+            reload_includes=["*.py"],
+            reload_excludes=["*.log"],
+            reload_delay=1,
+        )
     except:
-        log_event(ServiceShutDown(exit_code = 1))
-        sys.exit(1)
+        log_event(ServiceWebServeExceptionOccurred(info=traceback.format_exc()))
+        raise

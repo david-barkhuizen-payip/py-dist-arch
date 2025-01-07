@@ -4,7 +4,7 @@ from sqlalchemy.sql.expression import desc
 from services.fetch_buy_orders.rqrsp import BuyOrderExport, BuyOrderPage
 from typing import List, Optional
 from model.orm.read_model import BuyOrderReadModel
-from sqlalchemy.orm.session import Session
+from sqlalchemy.orm import Session
 from sqlalchemy import select
 from sqlalchemy.engine.base import Engine
 import uuid
